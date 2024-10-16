@@ -28,6 +28,19 @@
 		5CAC9D182C846AF800BCF8FA /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5CAC9D172C846AF800BCF8FA /* SDWebImageSwiftUI */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5C0BDE262CA1C3B4007635AD /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		5C268DEC2C8950530089C17A /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppState.swift; path = ../AppState.swift; sourceTree = "<group>"; };
 		5C268DEF2C8957D20089C17A /* AppLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogger.swift; sourceTree = "<group>"; };
@@ -159,6 +172,7 @@
 				5CAC9D002C846A4400BCF8FA /* Sources */,
 				5CAC9D012C846A4400BCF8FA /* Frameworks */,
 				5CAC9D022C846A4400BCF8FA /* Resources */,
+				5C0BDE262CA1C3B4007635AD /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -183,7 +197,7 @@
 				KnownAssetTags = (
 					New,
 				);
-				LastSwiftUpdateCheck = 1540;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					5CAC9D032C846A4400BCF8FA = {
@@ -203,6 +217,7 @@
 			packageReferences = (
 				5CAC9D162C846AF800BCF8FA /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				5CA641412C92987600776714 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
+				5C94C4B12C99317300E3BB21 /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
 			);
 			productRefGroup = 5CAC9D052C846A4400BCF8FA /* Products */;
 			projectDirPath = "";
@@ -462,6 +477,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5C94C4B12C99317300E3BB21 /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/quassum/SwiftUI-Tooltip";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
 		5CA641412C92987600776714 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern";
