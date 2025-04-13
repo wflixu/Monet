@@ -41,7 +41,7 @@ struct PicasaApp: App {
         SettingsWindow(appState: appState, onAppear: {})
 
         MenuBarExtra(
-            "Picasa", image: "menubarIcon", isInserted: $showMenuBarExtra
+            "Picasa", image: "menubar", isInserted: $showMenuBarExtra
         ) {
             MenuBarView()
         }.environmentObject(appState)

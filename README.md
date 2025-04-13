@@ -8,8 +8,8 @@
 [![macOS 14](https://img.shields.io/badge/macOS14-Compatible-green)](https://www.apple.com/macos/monterey/)
 
 
-<div align="center">
-   <img src="./images/logo.png"  width="256" height="256" alt="logo"   text-align:center/>
+<div align="start">
+   <img src="Picasa/Assets.xcassets/AppIcon.appiconset/icon_128x128@2x.png"  width="256" height="256" alt="logo"   text-align:center/>
 </div>
 
 An image Viewer for macOS power by SwiftUI .
