@@ -73,12 +73,13 @@ struct ContentView: View {
 
                 HStack {
                     if let currentImage = currentImage {
-                        ScrollView([.horizontal, .vertical], showsIndicators: false) {
+                        ScrollView([.horizontal, .vertical], showsIndicators: true) {
                             // 使用 Image 组件加载图片，并设置其大小大于 ScrollView 的视图大小
                             Image(nsImage: currentImage)
                                 .resizable()
                                 .frame(width: currentImage.size.width * scale.width, height: currentImage.size.height * scale.height )
-//                                .scaleEffect(scale, anchor: .center)
+                                .scaleEffect(scale, anchor: .center)
+                                .border(Color.red, width: 1)
                                 .offset(x: scrollViewOffset.width, y: scrollViewOffset.height) // 通过偏移来控制图片的位置
                                 .gesture(
                                     DragGesture()

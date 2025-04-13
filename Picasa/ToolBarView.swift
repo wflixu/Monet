@@ -5,6 +5,7 @@
 //  Created by 李旭 on 2024/9/15.
 //
 
+import AppKit
 import SwiftUI
 
 struct ToolBarView: View {
@@ -43,6 +44,7 @@ struct ToolBarView: View {
                     .font(.system(size: 20))
                     .foregroundColor(.white)
             }.buttonStyle(PlainButtonStyle())
+                .help("Magnify the picture")
             
             Text(scaleFormated).foregroundStyle(.white)
                 
@@ -53,6 +55,7 @@ struct ToolBarView: View {
                     .font(.system(size: 20))
                     .foregroundColor(.white)
             }.buttonStyle(PlainButtonStyle())
+                .help("Shrink the picture")
             
             // 浏览
             Button(action: {
@@ -62,6 +65,7 @@ struct ToolBarView: View {
                     .font(.system(size: 20))
                     .foregroundColor(.white)
             }.buttonStyle(PlainButtonStyle())
+                .help("Previous picture")
                
             Text(indexFormated).foregroundStyle(.white)
             
@@ -72,6 +76,7 @@ struct ToolBarView: View {
                     .font(.system(size: 20))
                     .foregroundColor(.white)
             }.buttonStyle(PlainButtonStyle())
+                .help("Next picture")
             
             Button(action: {
                 self.onTap(.centerFill)
@@ -80,9 +85,8 @@ struct ToolBarView: View {
                     .font(.system(size: 20))
                     .foregroundColor(.white)
             }.buttonStyle(PlainButtonStyle())
-            
-
-            
+                .help("Center Picture")
+          
             Divider()
             // toggle sidebar
             Button(action: {
@@ -92,6 +96,7 @@ struct ToolBarView: View {
                     .font(.system(size: 20))
                     .foregroundColor(.white)
             }.buttonStyle(PlainButtonStyle())
+                .help("Toggle navigation")
             
             // 第一个图标按钮
             Button(action: {
@@ -101,6 +106,7 @@ struct ToolBarView: View {
                     .font(.system(size: 20))
                     .foregroundColor(.white)
             }.buttonStyle(PlainButtonStyle())
+                .help("Toggle the picture info")
         }
         .padding([.leading, .trailing], 10)
         .padding([.top, .bottom], 8)
@@ -120,3 +126,4 @@ enum ToolbarActionIdentifier: String, Hashable {
     case toggleInfo
     case centerFill
 }
+
