@@ -19,7 +19,14 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .executableTarget(
             name: "Monet",
-            dependencies: []
+            dependencies: [
+                "SDWebImageSwiftUI",
+                .product(name: "LaunchAtLogin", package: "LaunchAtLogin-Modern"),
+                .product(name: "SwiftUITooltip", package: "SwiftUI-Tooltip"),
+            ],
+            resources: [
+                .process("Assets.xcassets"),
+            ]
         ),
         .testTarget(
             name: "MonetTests",
