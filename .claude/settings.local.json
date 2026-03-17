@@ -7,7 +7,14 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "WebSearch",
-      "Bash(swift run:*)"
+      "Bash(swift run:*)",
+      "Bash(xcodegen generate:*)",
+      "Bash(xcodebuild -list -project Monet.xcodeproj)",
+      "Bash(xcodebuild -project Monet.xcodeproj -scheme Monet -configuration Debug clean build)",
+      "Bash(curl -s https://api.github.com/repos/quassum/SwiftUI-Tooltip/tags)",
+      "Bash(curl -s https://raw.githubusercontent.com/quassum/SwiftUI-Tooltip/v1.4/Package.swift)",
+      "Bash(xcodebuild -project Monet.xcodeproj -scheme Monet -configuration Debug build)",
+      "Bash(git ls-remote:*)"
     ]
   }
 }

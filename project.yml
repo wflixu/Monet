@@ -1,0 +1,121 @@
+name: Monet
+options:
+  bundleIdPrefix: com.yourcompany
+  deploymentTarget:
+    macOS: 15.0
+  developmentLanguage: en
+  createIntermediateGroups: true
+  defaultConfig: Debug
+
+settings:
+  base:
+    PRODUCT_NAME: Monet
+    MARKETING_VERSION: 1.0
+    CURRENT_PROJECT_VERSION: 1
+    SWIFT_VERSION: 6.0
+    SWIFT_STRICT_CONCURRENCY: complete
+    ENABLE_PREVIEWS: true
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+
+targets:
+  Monet:
+    type: application
+    platform: macOS
+    deploymentTarget: 15.0
+    sources:
+      - Sources/Monet
+    resources:
+      - Sources/Monet/Assets.xcassets
+    info:
+      path: Sources/Monet/Info.plist
+      properties:
+        CFBundleIconName: AppIcon
+        ITSAppUsesNonExemptEncryption: false
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: PNG Image
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Default
+            LSItemContentTypes:
+              - public.png
+            CFBundleTypeExtensions:
+              - png
+          - CFBundleTypeName: JPEG Image
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Default
+            LSItemContentTypes:
+              - public.jpeg
+              - public.jpg
+            CFBundleTypeExtensions:
+              - jpg
+              - jpeg
+          - CFBundleTypeName: WebP Image
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Default
+            LSItemContentTypes:
+              - org.webmproject.webp
+            CFBundleTypeExtensions:
+              - webp
+          - CFBundleTypeName: GIF Image
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Default
+            LSItemContentTypes:
+              - com.compuserve.gif
+            CFBundleTypeExtensions:
+              - gif
+    entitlements:
+      path: Sources/Monet/Monet.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-write: true
+    dependencies:
+      - package: SDWebImageSwiftUI
+        product: SDWebImageSwiftUI
+      - package: LaunchAtLogin-Modern
+        product: LaunchAtLogin
+      - package: SwiftUI-Tooltip
+        product: SwiftUITooltip
+    scheme:
+      testTargets:
+        - MonetTests
+      commandLineArguments:
+        - -EnableTesting: false
+
+  MonetTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - Tests/MonetTests
+    dependencies:
+      - target: Monet
+
+schemes:
+  Monet:
+    build:
+      targets:
+        Monet: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - MonetTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+
+packages:
+  SDWebImage:
+    url: https://github.com/SDWebImage/SDWebImage.git
+    revision: 2de3a496eaf6df9a1312862adcfd54acd73c39c0
+  SDWebImageSwiftUI:
+    url: https://github.com/SDWebImage/SDWebImageSwiftUI.git
+    revision: 0e331457ca9af2f0b08bcaa138a91ffb907b004f
+  LaunchAtLogin-Modern:
+    url: https://github.com/sindresorhus/LaunchAtLogin-Modern.git
+    revision: a04ec1c363be3627734f6dad757d82f5d4fa8fcc
+  SwiftUI-Tooltip:
+    url: https://github.com/quassum/SwiftUI-Tooltip.git
+    revision: 3bef9a21e2bcf1d0f078ddf6731c3c8996f32c3e

@@ -1,0 +1,617 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03126D63C76FB7E54C665D55 /* PermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96511964B06BDDAB1A25403 /* PermissionsManager.swift */; };
+		2825BADA7845FBFCD4EEDAA1 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442E22A06002EDE0AB884C1E /* AppState.swift */; };
+		2B843D84A3D9EF07466802EB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA973327AD76E954FF58D2B /* SettingsView.swift */; };
+		2CDD3F222B87AB7CABD58D21 /* InfoBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BCAC887FEAAE0D5C1F6CB0 /* InfoBarView.swift */; };
+		358DDD72E9EAFE6E8979D8E1 /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749F147AE3A78DD084B2D2A1 /* SettingsWindow.swift */; };
+		475E88C5D4E4B4344DC9D53E /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D0DF118447932929A20905 /* Util.swift */; };
+		4C2394DF230E3690F1EC3D8F /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2015514A3582DFD16537D3 /* MenuBarView.swift */; };
+		4F4B2A1ACD7EFDC09359FEA6 /* AboutSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B3B8C180F1E2E4D470C972 /* AboutSettingsPane.swift */; };
+		5B73AB6DBF88E154024C9D58 /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = 4B5952D1F75CEB03554A2917 /* SwiftUITooltip */; };
+		7545FEE61BC1A8BC57C2DB72 /* MonetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0DF9160FE840AEDAEABC7B /* MonetTests.swift */; };
+		8D847B53187F25D84C4E3161 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA628FAEF8752BE102B3AD0 /* ContentView.swift */; };
+		97C07384D1F6C0CB2670A321 /* ImageThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E0DBE3672E0FB54D57CF99 /* ImageThumbnailView.swift */; };
+		AE9BCAC8AC30B666D77E8F87 /* LayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4D933B6DA6A6B4585C07FB /* LayoutView.swift */; };
+		B292B1A0A738667F557E7ABF /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC18FD6482516247EAC6CB4 /* Item.swift */; };
+		B8EDC138A57B9B0AABE8BD24 /* MonetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E898E7574C9CBDE3DCC12F83 /* MonetApp.swift */; };
+		C2ACB0C63688E46F63DD5840 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = C1FD790E1DD7AC500322500F /* SDWebImageSwiftUI */; };
+		CD08727BAEEFA57EFEFAA7C2 /* NavigationIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30257FFCC7246713B5032D6A /* NavigationIdentifier.swift */; };
+		D2E1D45C9F138B305A132766 /* GeneralSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB03945F9D317E0EF1D53B68 /* GeneralSettingsPane.swift */; };
+		D404C2E9D7D2AA6FE9500342 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B769996ABD10948F7CF380D6 /* Constants.swift */; };
+		DBA979294C03C8C02E99DA73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 199212F3989A5E4D1123A851 /* Assets.xcassets */; };
+		DFB2DA36DC42A476A991271B /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 116259A8956AE9791A4F20E6 /* LaunchAtLogin */; };
+		E45E388A9D41F8D9BE8541B8 /* NavigationFloatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7FB926D47BE0BFA26D6B7D /* NavigationFloatView.swift */; };
+		E823B80CA42ADC86C169A198 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EBE1CDA36D6559D2AC78EA /* ViewState.swift */; };
+		F05E839871CA27154A94D147 /* ZoomableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FA2880BD2AC4BD3FA47BDD /* ZoomableImageView.swift */; };
+		F0AA72081D7972B481F39503 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1AAA0C9DB248F6718B2AB6 /* ToolbarView.swift */; };
+		F5271F8A240887FB0E0F734E /* AppLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B028D75236685DE67748C6E3 /* AppLogger.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		47635106C72CFAE500286D21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0902A7ADDAF7F7B9438FA211 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BEFCDAC996BED65856A3A03B;
+			remoteInfo = Monet;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		14FA2880BD2AC4BD3FA47BDD /* ZoomableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableImageView.swift; sourceTree = "<group>"; };
+		199212F3989A5E4D1123A851 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		23BCAC887FEAAE0D5C1F6CB0 /* InfoBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBarView.swift; sourceTree = "<group>"; };
+		30257FFCC7246713B5032D6A /* NavigationIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationIdentifier.swift; sourceTree = "<group>"; };
+		3C1AAA0C9DB248F6718B2AB6 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
+		3DA973327AD76E954FF58D2B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		3E0DF9160FE840AEDAEABC7B /* MonetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetTests.swift; sourceTree = "<group>"; };
+		442E22A06002EDE0AB884C1E /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		6E4D933B6DA6A6B4585C07FB /* LayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutView.swift; sourceTree = "<group>"; };
+		749F147AE3A78DD084B2D2A1 /* SettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindow.swift; sourceTree = "<group>"; };
+		7C3B72113EDB45DD409BD43D /* MonetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D03FCF0C5257B8613BD016F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		86E0DBE3672E0FB54D57CF99 /* ImageThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThumbnailView.swift; sourceTree = "<group>"; };
+		A96511964B06BDDAB1A25403 /* PermissionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsManager.swift; sourceTree = "<group>"; };
+		B028D75236685DE67748C6E3 /* AppLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogger.swift; sourceTree = "<group>"; };
+		B5A41B4D5A4509B416AE4ADC /* Monet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B769996ABD10948F7CF380D6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		BA7FB926D47BE0BFA26D6B7D /* NavigationFloatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationFloatView.swift; sourceTree = "<group>"; };
+		C3BDE8FE655124F5B59CB2F7 /* Monet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Monet.entitlements; sourceTree = "<group>"; };
+		C6D0DF118447932929A20905 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		CB03945F9D317E0EF1D53B68 /* GeneralSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsPane.swift; sourceTree = "<group>"; };
+		CDC18FD6482516247EAC6CB4 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		D2B3B8C180F1E2E4D470C972 /* AboutSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSettingsPane.swift; sourceTree = "<group>"; };
+		E898E7574C9CBDE3DCC12F83 /* MonetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetApp.swift; sourceTree = "<group>"; };
+		EF2015514A3582DFD16537D3 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		F7EBE1CDA36D6559D2AC78EA /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		FFA628FAEF8752BE102B3AD0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		30AE23F24FEC95F63A5769AA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2ACB0C63688E46F63DD5840 /* SDWebImageSwiftUI in Frameworks */,
+				DFB2DA36DC42A476A991271B /* LaunchAtLogin in Frameworks */,
+				5B73AB6DBF88E154024C9D58 /* SwiftUITooltip in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		01403029AA352D15AA5CE1BA /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				B028D75236685DE67748C6E3 /* AppLogger.swift */,
+				B769996ABD10948F7CF380D6 /* Constants.swift */,
+				C6D0DF118447932929A20905 /* Util.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		15B938530CEBA338F8B41E18 /* Permission */ = {
+			isa = PBXGroup;
+			children = (
+				A96511964B06BDDAB1A25403 /* PermissionsManager.swift */,
+			);
+			path = Permission;
+			sourceTree = "<group>";
+		};
+		2EB8BA1296D61E00B40AD421 = {
+			isa = PBXGroup;
+			children = (
+				A06B8CA333C087B031EB7ABE /* Sources */,
+				3DC6582BB691E623053C28FE /* Tests */,
+				712B6B99F127A16709EE3061 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		34A0310D1109D88A940B22CC /* MonetTests */ = {
+			isa = PBXGroup;
+			children = (
+				3E0DF9160FE840AEDAEABC7B /* MonetTests.swift */,
+			);
+			path = MonetTests;
+			sourceTree = "<group>";
+		};
+		3DC6582BB691E623053C28FE /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				34A0310D1109D88A940B22CC /* MonetTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		712B6B99F127A16709EE3061 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B5A41B4D5A4509B416AE4ADC /* Monet.app */,
+				7C3B72113EDB45DD409BD43D /* MonetTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A06B8CA333C087B031EB7ABE /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				E720594DBD3879C6E191245D /* Monet */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		E59CC19889204AB9A3F92EB5 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D2B3B8C180F1E2E4D470C972 /* AboutSettingsPane.swift */,
+				CB03945F9D317E0EF1D53B68 /* GeneralSettingsPane.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		E720594DBD3879C6E191245D /* Monet */ = {
+			isa = PBXGroup;
+			children = (
+				442E22A06002EDE0AB884C1E /* AppState.swift */,
+				199212F3989A5E4D1123A851 /* Assets.xcassets */,
+				FFA628FAEF8752BE102B3AD0 /* ContentView.swift */,
+				86E0DBE3672E0FB54D57CF99 /* ImageThumbnailView.swift */,
+				7D03FCF0C5257B8613BD016F /* Info.plist */,
+				23BCAC887FEAAE0D5C1F6CB0 /* InfoBarView.swift */,
+				CDC18FD6482516247EAC6CB4 /* Item.swift */,
+				6E4D933B6DA6A6B4585C07FB /* LayoutView.swift */,
+				EF2015514A3582DFD16537D3 /* MenuBarView.swift */,
+				C3BDE8FE655124F5B59CB2F7 /* Monet.entitlements */,
+				E898E7574C9CBDE3DCC12F83 /* MonetApp.swift */,
+				BA7FB926D47BE0BFA26D6B7D /* NavigationFloatView.swift */,
+				30257FFCC7246713B5032D6A /* NavigationIdentifier.swift */,
+				3DA973327AD76E954FF58D2B /* SettingsView.swift */,
+				749F147AE3A78DD084B2D2A1 /* SettingsWindow.swift */,
+				3C1AAA0C9DB248F6718B2AB6 /* ToolbarView.swift */,
+				14FA2880BD2AC4BD3FA47BDD /* ZoomableImageView.swift */,
+				FA59E2BDC9E997B42EA42BA9 /* Models */,
+				15B938530CEBA338F8B41E18 /* Permission */,
+				E59CC19889204AB9A3F92EB5 /* Settings */,
+				01403029AA352D15AA5CE1BA /* Shared */,
+			);
+			path = Monet;
+			sourceTree = "<group>";
+		};
+		FA59E2BDC9E997B42EA42BA9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F7EBE1CDA36D6559D2AC78EA /* ViewState.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BEFCDAC996BED65856A3A03B /* Monet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC09AAEB30EF3995C9269C5C /* Build configuration list for PBXNativeTarget "Monet" */;
+			buildPhases = (
+				C48683827CBFB926017228BA /* Sources */,
+				3004A626BFC7ACE617A7FE1B /* Resources */,
+				30AE23F24FEC95F63A5769AA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Monet;
+			packageProductDependencies = (
+				C1FD790E1DD7AC500322500F /* SDWebImageSwiftUI */,
+				116259A8956AE9791A4F20E6 /* LaunchAtLogin */,
+				4B5952D1F75CEB03554A2917 /* SwiftUITooltip */,
+			);
+			productName = Monet;
+			productReference = B5A41B4D5A4509B416AE4ADC /* Monet.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DA1376DBC948EEC1D780DBA6 /* MonetTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 677BA70A426D8036D1972646 /* Build configuration list for PBXNativeTarget "MonetTests" */;
+			buildPhases = (
+				FD761226600D36EA2D249A2C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B69CF0332B8B26286148ECF2 /* PBXTargetDependency */,
+			);
+			name = MonetTests;
+			packageProductDependencies = (
+			);
+			productName = MonetTests;
+			productReference = 7C3B72113EDB45DD409BD43D /* MonetTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0902A7ADDAF7F7B9438FA211 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = C09D4BBE02B562634531C27B /* Build configuration list for PBXProject "Monet" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 2EB8BA1296D61E00B40AD421;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7B8EACE7A73710933779E7D2 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
+				904B366EBB354744F26A12E0 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				166A3D2C8A6634D3D035A057 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				0D643896FA00801A31FE2F23 /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 712B6B99F127A16709EE3061 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BEFCDAC996BED65856A3A03B /* Monet */,
+				DA1376DBC948EEC1D780DBA6 /* MonetTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3004A626BFC7ACE617A7FE1B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DBA979294C03C8C02E99DA73 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C48683827CBFB926017228BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F4B2A1ACD7EFDC09359FEA6 /* AboutSettingsPane.swift in Sources */,
+				F5271F8A240887FB0E0F734E /* AppLogger.swift in Sources */,
+				2825BADA7845FBFCD4EEDAA1 /* AppState.swift in Sources */,
+				D404C2E9D7D2AA6FE9500342 /* Constants.swift in Sources */,
+				8D847B53187F25D84C4E3161 /* ContentView.swift in Sources */,
+				D2E1D45C9F138B305A132766 /* GeneralSettingsPane.swift in Sources */,
+				97C07384D1F6C0CB2670A321 /* ImageThumbnailView.swift in Sources */,
+				2CDD3F222B87AB7CABD58D21 /* InfoBarView.swift in Sources */,
+				B292B1A0A738667F557E7ABF /* Item.swift in Sources */,
+				AE9BCAC8AC30B666D77E8F87 /* LayoutView.swift in Sources */,
+				4C2394DF230E3690F1EC3D8F /* MenuBarView.swift in Sources */,
+				B8EDC138A57B9B0AABE8BD24 /* MonetApp.swift in Sources */,
+				E45E388A9D41F8D9BE8541B8 /* NavigationFloatView.swift in Sources */,
+				CD08727BAEEFA57EFEFAA7C2 /* NavigationIdentifier.swift in Sources */,
+				03126D63C76FB7E54C665D55 /* PermissionsManager.swift in Sources */,
+				2B843D84A3D9EF07466802EB /* SettingsView.swift in Sources */,
+				358DDD72E9EAFE6E8979D8E1 /* SettingsWindow.swift in Sources */,
+				F0AA72081D7972B481F39503 /* ToolbarView.swift in Sources */,
+				475E88C5D4E4B4344DC9D53E /* Util.swift in Sources */,
+				E823B80CA42ADC86C169A198 /* ViewState.swift in Sources */,
+				F05E839871CA27154A94D147 /* ZoomableImageView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD761226600D36EA2D249A2C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7545FEE61BC1A8BC57C2DB72 /* MonetTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B69CF0332B8B26286148ECF2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BEFCDAC996BED65856A3A03B /* Monet */;
+			targetProxy = 47635106C72CFAE500286D21 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		337985F33E52455F57BCB8AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MonetTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Monet.app/Contents/MacOS/Monet";
+			};
+			name = Release;
+		};
+		6143D7ED7D99ADC493A412A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Monet;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		99ABC4EAB6E8DD1563DBD983 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = Monet;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		B5063E3BCCF92CF1A327A6DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/Monet/Monet.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Sources/Monet/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Monet;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C05CB8EE83E9A646DDE3D177 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/Monet/Monet.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Sources/Monet/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Monet;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E2C996A5EBBA7A8B1484560C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MonetTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Monet.app/Contents/MacOS/Monet";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		677BA70A426D8036D1972646 /* Build configuration list for PBXNativeTarget "MonetTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2C996A5EBBA7A8B1484560C /* Debug */,
+				337985F33E52455F57BCB8AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AC09AAEB30EF3995C9269C5C /* Build configuration list for PBXNativeTarget "Monet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C05CB8EE83E9A646DDE3D177 /* Debug */,
+				B5063E3BCCF92CF1A327A6DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C09D4BBE02B562634531C27B /* Build configuration list for PBXProject "Monet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6143D7ED7D99ADC493A412A7 /* Debug */,
+				99ABC4EAB6E8DD1563DBD983 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0D643896FA00801A31FE2F23 /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/quassum/SwiftUI-Tooltip.git";
+			requirement = {
+				kind = revision;
+				revision = 3bef9a21e2bcf1d0f078ddf6731c3c8996f32c3e;
+			};
+		};
+		166A3D2C8A6634D3D035A057 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = revision;
+				revision = 0e331457ca9af2f0b08bcaa138a91ffb907b004f;
+			};
+		};
+		7B8EACE7A73710933779E7D2 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern.git";
+			requirement = {
+				kind = revision;
+				revision = a04ec1c363be3627734f6dad757d82f5d4fa8fcc;
+			};
+		};
+		904B366EBB354744F26A12E0 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = revision;
+				revision = 2de3a496eaf6df9a1312862adcfd54acd73c39c0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		116259A8956AE9791A4F20E6 /* LaunchAtLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B8EACE7A73710933779E7D2 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
+			productName = LaunchAtLogin;
+		};
+		4B5952D1F75CEB03554A2917 /* SwiftUITooltip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D643896FA00801A31FE2F23 /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */;
+			productName = SwiftUITooltip;
+		};
+		C1FD790E1DD7AC500322500F /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 166A3D2C8A6634D3D035A057 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 0902A7ADDAF7F7B9438FA211 /* Project object */;
+}
