@@ -42,13 +42,13 @@ jobs:
           set -e
 
           # 使用 xcodebuild 构建（Swift Package 不需要 .xcodeproj）
+          # CODE_SIGNING_ALLOWED=NO: 依赖项不签名，留给后续手动 codesign
           xcodebuild -scheme Monet \
             -configuration Release \
             -derivedDataPath build \
             -destination "generic/platform=macOS" \
-            DEVELOPER_TEAM="$DEVELOPER_TEAM_ID" \
-            CODE_SIGN_IDENTITY="Developer ID Application" \
-            ENABLE_HARDENED_RUNTIME=YES \
+            CODE_SIGNING_ALLOWED=NO \
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS="" \
             build
 
           # 查找 App 路径（兼容不同 Xcode 版本的输出结构）
