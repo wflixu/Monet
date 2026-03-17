@@ -1,0 +1,165 @@
+name: Build, Sign, Notarize and Release
+
+on:
+  push:
+    tags:
+      - 'v*' # 仅在推送 v1.0.0 这样的标签时触发
+
+jobs:
+  build-and-release:
+    runs-on: macos-26
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Select Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
+
+      # 1. 导入签名证书
+      - name: Import Code Signing Certificate
+        env:
+          CERTIFICATE_P12: ${{ secrets.MACOS_CERT_P12 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+          KEYCHAIN_PASSWORD: 'action_keychain'
+        run: |
+          # 创建临时 keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security set-keychain-settings -lut 21600 build.keychain
+          security list-keychains -d user -s build.keychain
+
+          # 导入证书
+          echo "$CERTIFICATE_P12" | base64 --decode > certificate.p12
+          security import certificate.p12 -k build.keychain -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
+
+      # 2. 构建 App (使用 xcodebuild，不需要 generate-xcodeproj)
+      - name: Build App
+        env:
+          DEVELOPER_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -e
+
+          # 使用 xcodebuild 构建（Swift Package 不需要 .xcodeproj）
+          xcodebuild -scheme Monet \
+            -configuration Release \
+            -derivedDataPath build \
+            -destination "generic/platform=macOS" \
+            DEVELOPER_TEAM="$DEVELOPER_TEAM_ID" \
+            CODE_SIGN_IDENTITY="Developer ID Application" \
+            ENABLE_HARDENED_RUNTIME=YES \
+            build
+
+          # 查找 App 路径（兼容不同 Xcode 版本的输出结构）
+          APP_PATH=$(find build -name "Monet.app" -type d -path "*/Products/Release/*" | head -n 1)
+
+          if [ -z "$APP_PATH" ]; then
+            echo "Error: App not found in build directory"
+            exit 1
+          fi
+
+          echo "APP_PATH=$APP_PATH" >> $GITHUB_ENV
+          echo "Built app at: $APP_PATH"
+
+      # 3. 代码签名 (Signing)
+      - name: Code Sign App
+        run: |
+          set -e
+
+          # 获取证书名称
+          CERT_NAME=$(security find-identity -v -s "Developer ID Application" | head -n 1 | awk -F'"' '{print $2}')
+
+          if [ -z "$CERT_NAME" ]; then
+            echo "Error: Developer ID Certificate not found"
+            exit 1
+          fi
+
+          echo "Signing with: $CERT_NAME"
+
+          # 创建最小化 Distribution entitlements 文件（移除高风险权限）
+          cat > Monet_Distribution.entitlements << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+            <dict>
+              <key>com.apple.security.files.user-selected.read-write</key>
+              <true/>
+              <key>com.apple.security.network.client</key>
+              <true/>
+            </dict>
+          </plist>
+          EOF
+
+          # 使用 --deep 进行深度签名
+          codesign --force --deep --options runtime \
+            --entitlements "Monet_Distribution.entitlements" \
+            --sign "$CERT_NAME" "$APP_PATH"
+
+          # 验证签名
+          codesign --verify --verbose "$APP_PATH"
+
+      # 4. 打包为 ZIP (公证需要 ZIP 或 DMG)
+      - name: Zip App
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" Monet.zip
+
+      # 5. 公证 (Notarization) - 带失败处理
+      - name: Notarize App
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
+          ISSUER_ID: ${{ secrets.NOTARY_ISSUER_ID }}
+          PRIVATE_KEY: ${{ secrets.NOTARY_PRIVATE_KEY }}
+        run: |
+          set -e
+
+          # 保存 p8 密钥文件
+          echo "$PRIVATE_KEY" > AuthKey_${KEY_ID}.p8
+
+          # 提交公证并等待结果（使用 JSON 输出便于调试）
+          RESULT=$(xcrun notarytool submit Monet.zip \
+            --key-id "$KEY_ID" \
+            --issuer "$ISSUER_ID" \
+            --key "AuthKey_${KEY_ID}.p8" \
+            --team-id "$TEAM_ID" \
+            --wait \
+            --output-format json)
+
+          echo "$RESULT" | jq .
+
+          STATUS=$(echo "$RESULT" | jq -r '.status')
+
+          if [ "$STATUS" != "Accepted" ]; then
+            echo "Notarization failed with status: $STATUS"
+            exit 1
+          fi
+
+          echo "Notarization successful"
+
+      # 6. 绑定公证票据 (Stapling) - 关键步骤，否则离线用户无法运行
+      - name: Staple Notarization Ticket
+        run: |
+          set -e
+
+          xcrun stapler staple "$APP_PATH"
+
+          # 验证是否绑定成功（使用 execute 类型）
+          spctl --assess --type execute --verbose "$APP_PATH"
+
+      # 7. 重新打包已公证的 App
+      - name: Zip Signed App
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" Monet-signed.zip
+
+      # 8. 创建 Release 并上传
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            Monet-signed.zip
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

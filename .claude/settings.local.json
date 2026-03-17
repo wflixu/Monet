@@ -14,7 +14,9 @@
       "Bash(curl -s https://api.github.com/repos/quassum/SwiftUI-Tooltip/tags)",
       "Bash(curl -s https://raw.githubusercontent.com/quassum/SwiftUI-Tooltip/v1.4/Package.swift)",
       "Bash(xcodebuild -project Monet.xcodeproj -scheme Monet -configuration Debug build)",
-      "Bash(git ls-remote:*)"
+      "Bash(git ls-remote:*)",
+      "Bash(chmod +x /Users/lixu/code/Monet/scripts/build-test.sh)",
+      "Bash(./scripts/build-test.sh)"
     ]
   }
 }
