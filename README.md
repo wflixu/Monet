@@ -1,82 +1,117 @@
-# Monet - macOS 图片查看器
+[![Swift 6.0](https://img.shields.io/badge/Swift-6.0-ED523F.svg?style=flat)](https://swift.org/)
+[![SwiftUI](https://img.shields.io/badge/SwiftUI-✓-orange)](https://developer.apple.com/xcode/swiftui/)
+[![macOS 15](https://img.shields.io/badge/macOS15-Compatible-green)](https://www.apple.com/macos/)
 
-一个简洁的 macOS 图片查看应用，专注于高效查看和导航图片。
+<div align="start">
+   <img src="Sources/Monet/Assets.xcassets/AppIcon.appiconset/icon_256x256.png" width="256" height="256" alt="Monet Logo"/>
+</div>
 
-## 主要功能
+# Monet
 
-### 🖼️ 图片浏览
-- **文件夹访问**: 启动时自动请求访问包含图片的文件夹
-- **图片索引**: 自动扫描并索引文件夹中的所有图片文件
-- **支持的格式**: JPEG, PNG, GIF, BMP, TIFF, WebP 等常见图片格式
+An elegant image viewer for macOS, powered by SwiftUI.
 
-### ⌨️ 键盘导航
-- **方向键导航**:
-  - ← 左箭头键：上一张图片
-  - → 右箭头键：下一张图片
-  - ↑ 上箭头键：上一张图片
-  - ↓ 下箭头键：下一张图片
-- **快速切换**: 无需使用鼠标即可浏览所有图片
+## Features
 
-### 🔍 缩放功能
-- **Command + 滚轮缩放**: 按住 Command 键并滚动鼠标滚轮进行缩放
-- **鼠标中心缩放**: 缩放以鼠标当前位置为中心，确保查看体验自然流畅
-- **拖拽平移**: 使用鼠标左键拖拽移动图片
-- **缩放范围**: 支持 0.1x 到 10x 的缩放比例
+### Image Browsing
+- **Folder Access**: Request folder access on startup to browse your images
+- **Auto-Indexing**: Automatically scans and indexes all supported image formats
+- **Supported Formats**: PNG, JPEG, GIF, WebP
 
-### 📱 用户界面
-- **工具栏**: 显示图片计数器（如 1/15）和导航按钮
-- **文件选择**: 点击文件夹图标可重新选择图片文件夹
-- **重置视图**: 提供重置缩放和平移的功能
-- **状态显示**: 右上角显示当前缩放比例和文件名
+### Keyboard Navigation
+- **Arrow Keys**: Navigate through images with arrow keys (←/→/↑/↓)
+- **Quick Switch**: Browse all images without touching the mouse
 
-## 使用方法
+### Zoom & Pan
+- **Command + Scroll**: Zoom in/out centered on mouse position
+- **Mouse Drag**: Pan around zoomed images
+- **Zoom Range**: Supports 0.1x to 10x zoom levels
 
-1. **启动应用**: 打开 Monet 应用
-2. **选择文件夹**: 点击文件夹图标选择包含图片的文件夹
-3. **浏览图片**:
-   - 使用方向键或工具栏按钮切换图片
-   - 按住 Command + 滚轮缩放图片
-   - 鼠标拖拽平移图片
-4. **重置视图**: 点击重置按钮或使用工具栏功能恢复默认视图
+### Floating UI
+- **Info Bar** (top): Shows current zoom level and file name
+- **Navigation Panel** (left): Thumbnail strip for quick navigation
+- **Toolbar** (bottom): Image counter and navigation controls
 
-## 技术特性
+## Requirements
 
-- **SwiftUI**: 使用现代 SwiftUI 框架构建
-- **macOS 原生**: 专为 macOS 26.0+ 设计
-- **高性能**: 优化的图片加载和渲染
-- **沙盒安全**: 启用应用沙盒确保安全性
+- macOS 15.0 or later
+- Xcode 16.0 or later
+- Swift 6.0+
 
-## 开发信息
+## Installation
 
-- **开发环境**: Xcode 26.0.1+, Swift 5.0+
-- **目标平台**: macOS 26.0+
-- **架构**: 支持 Apple Silicon (ARM64)，不支持 Intel Mac
-
-## 构建说明
+### Build from Source
 
 ```bash
-# 克隆或下载项目
+# Clone the repository
+git clone https://github.com/yourusername/Monet.git
 cd Monet
 
-# 使用 Xcode 构建项目
-xcodebuild -project Monet.xcodeproj -scheme Monet build
+# Generate Xcode project (requires xcodegen)
+brew install xcodegen
+xcodegen generate
 
-# 或在 Xcode 中打开项目
+# Open in Xcode
 open Monet.xcodeproj
+
+# Or build from command line
+xcodebuild -project Monet.xcodeproj -scheme Monet build
 ```
 
-## 文件结构
+## Project Structure
 
 ```
 Monet/
-├── MonetApp.swift          # 应用入口
-├── ContentView.swift       # 主界面
-├── ImageManager.swift      # 图片管理和索引
-├── ZoomableImageView.swift # 可缩放图片视图
-├── Extensions.swift        # 扩展和工具
-└── Assets.xcassets        # 应用资源
+├── Sources/
+│   └── Monet/
+│       ├── MonetApp.swift              # App entry point
+│       ├── AppState.swift               # Global app state
+│       ├── LayoutView.swift             # Main layout view
+│       ├── ZoomableImageView.swift      # Zoomable image view
+│       ├── Views/
+│       │   ├── ToolBarView.swift        # Bottom toolbar
+│       │   ├── InfoBarView.swift        # Top info bar
+│       │   └── NavigationFloatView.swift # Left navigation panel
+│       ├── Models/
+│       │   └── ViewState.swift          # Image transformation state
+│       ├── Permission/
+│       │   └── PermissionsManager.swift # File system permissions
+│       ├── Settings/
+│       │   ├── GeneralSettingsPane.swift
+│       │   └── AboutSettingsPane.swift
+│       ├── Shared/
+│       │   ├── AppLogger.swift          # Logging utilities
+│       │   ├── Constants.swift
+│       │   └── Util.swift
+│       ├── Assets.xcassets/             # App resources
+│       ├── Info.plist                   # App configuration
+│       └── Monet.entitlements           # Sandbox entitlements
+├── Tests/
+│   └── MonetTests/
+├── project.yml                          # XcodeGen project spec
+└── Monet.xcodeproj/                     # Generated Xcode project
 ```
 
-## 许可证
+## Development
 
-本项目仅供学习和个人使用。
+Monet is built with:
+- **SwiftUI** for the user interface
+- **SDWebImageSwiftUI** for image loading
+- **LaunchAtLogin** for login item management
+- **SwiftUI-Tooltip** for tooltips
+
+### Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| ← / → | Previous / Next image |
+| ↑ / ↓ | Previous / Next image |
+| Cmd + Scroll | Zoom in/out |
+| Mouse Drag | Pan zoomed image |
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
