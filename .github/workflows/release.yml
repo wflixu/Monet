@@ -15,6 +15,14 @@ jobs:
       - name: Select Xcode Version
         run: sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
 
+      # 获取版本号（从 git tag）
+      - name: Get Version
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
       # 1. 导入签名证书
       - name: Import Code Signing Certificate
         env:
@@ -100,7 +108,7 @@ jobs:
           codesign --verify --verbose "$APP_PATH"
 
       # 4. 打包为 ZIP (公证需要 ZIP 或 DMG)
-      - name: Zip App
+      - name: Zip App for Notarization
         run: |
           ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" Monet.zip
 
@@ -149,17 +157,52 @@ jobs:
           # 验证是否绑定成功（使用 execute 类型）
           spctl --assess --type execute --verbose "$APP_PATH"
 
-      # 7. 重新打包已公证的 App
-      - name: Zip Signed App
+      # 7. 创建 DMG 文件
+      - name: Create DMG
         run: |
-          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" Monet-signed.zip
+          set -e
 
-      # 8. 创建 Release 并上传
+          VERSION=${{ steps.version.outputs.version }}
+          APP_NAME="Monet-v${VERSION}.app"
+          DMG_NAME="Monet-v${VERSION}.dmg"
+
+          # 复制 App 到临时目录并重命名
+          cp -R "$APP_PATH" "$APP_NAME"
+
+          # 创建 DMG（使用 hdiutil）
+          hdiutil create -volname "Monet" \
+            -srcfolder "$APP_NAME" \
+            -ov -format UDZO "$DMG_NAME"
+
+          # 对 DMG 进行签名
+          codesign --force --sign "$CERT_NAME" "$DMG_NAME"
+
+          echo "Created DMG: $DMG_NAME"
+
+      # 8. 重命名并打包已公证的 App 为 ZIP
+      - name: Zip Signed App with Version
+        run: |
+          set -e
+
+          VERSION=${{ steps.version.outputs.version }}
+          APP_NAME="Monet-v${VERSION}.app"
+          ZIP_NAME="Monet-v${VERSION}.app.zip"
+
+          # 复制 App 到临时目录并重命名
+          cp -R "$APP_PATH" "$APP_NAME"
+
+          # 打包为 ZIP
+          ditto -c -k --sequesterRsrc --keepParent "$APP_NAME" "$ZIP_NAME"
+
+          echo "Created ZIP: $ZIP_NAME"
+
+      # 9. 创建 Release 并上传
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            Monet-signed.zip
+            Monet-v${{ steps.version.outputs.version }}.app.zip
+            Monet-v${{ steps.version.outputs.version }}.dmg
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
