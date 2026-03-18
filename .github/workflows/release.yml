@@ -64,12 +64,15 @@ jobs:
 
           # 使用 xcodebuild 构建（Swift Package 不需要 .xcodeproj）
           # CODE_SIGNING_ALLOWED=NO: 依赖项不签名，留给后续手动 codesign
+          # ARCHS=arm64 ONLY_ACTIVE_ARCH=NO: 只构建 arm64 架构，减小体积
           xcodebuild -scheme Monet \
             -configuration Release \
             -derivedDataPath build \
             -destination "generic/platform=macOS" \
             CODE_SIGNING_ALLOWED=NO \
             SWIFT_ACTIVE_COMPILATION_CONDITIONS="" \
+            ARCHS=arm64 \
+            ONLY_ACTIVE_ARCH=NO \
             build
 
           # 查找 App 路径（兼容不同 Xcode 版本的输出结构）
@@ -82,6 +85,10 @@ jobs:
 
           echo "APP_PATH=$APP_PATH" >> $GITHUB_ENV
           echo "Built app at: $APP_PATH"
+
+          # 验证架构
+          echo "Validating architecture..."
+          lipo -info "$APP_PATH/Contents/MacOS/Monet" || true
 
       # 3. 代码签名 (Signing) - 分层签名（不用 --deep）
       - name: Code Sign App
@@ -192,7 +199,11 @@ jobs:
           # 验证是否绑定成功（使用 verbose=4）
           spctl --assess --type execute --verbose=4 "$APP_PATH"
 
-      # 7. 创建 DMG 文件
+      # 7. 创建 DMG 文件（使用 create-dmg 工具）
+      - name: Install create-dmg
+        run: |
+          brew install create-dmg
+
       - name: Create DMG
         run: |
           set -e
@@ -204,10 +215,20 @@ jobs:
           # 复制 App 到临时目录并重命名
           cp -R "$APP_PATH" "$APP_NAME"
 
-          # 创建 DMG（使用 hdiutil）
-          hdiutil create -volname "Monet" \
-            -srcfolder "$APP_NAME" \
-            -ov -format UDZO "$DMG_NAME"
+          # 从构建产物中提取 icns 图标
+          ICON_PATH="$APP_PATH/Contents/Resources/AppIcon.icns"
+
+          # 使用 create-dmg 创建专业 DMG（带拖拽安装界面）
+          create-dmg \
+            --volname "Monet" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 100 \
+            --icon "$APP_NAME" 150 200 \
+            --hide-extension "$APP_NAME" \
+            --app-drop-link 450 200 \
+            "$DMG_NAME" \
+            "$APP_NAME"
 
           # 对 DMG 进行签名（需要重新获取证书名称）
           CERT_NAME=$(security find-identity -v -s "Developer ID Application" | head -n 1 | awk -F'"' '{print $2}')
