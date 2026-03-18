@@ -5,15 +5,26 @@ on:
     tags:
       - 'v*' # 仅在推送 v1.0.0 这样的标签时触发
 
+permissions:
+  contents: write # 允许创建 Release 和删除 tag
+
 jobs:
   build-and-release:
-    runs-on: macos-26
+    runs-on: macos-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Select Xcode Version
-        run: sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
+        run: |
+          # 自动检测已安装的 Xcode
+          XCODE_PATH=$(ls -d /Applications/Xcode*.app | head -n 1)
+          if [ -z "$XCODE_PATH" ]; then
+            echo "Error: Xcode not found"
+            exit 1
+          fi
+          sudo xcode-select -s "$XCODE_PATH/Contents/Developer"
+          echo "Using Xcode: $XCODE_PATH"
 
       # 获取版本号（从 git tag）
       - name: Get Version
@@ -35,12 +46,14 @@ jobs:
           security default-keychain -s build.keychain
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
           security set-keychain-settings -lut 21600 build.keychain
-          security list-keychains -d user -s build.keychain
 
           # 导入证书
           echo "$CERTIFICATE_P12" | base64 --decode > certificate.p12
           security import certificate.p12 -k build.keychain -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
+
+          # 设置 keychain 搜索路径（保留 login.keychain 以访问系统证书）
+          security list-keychains -d user -s build.keychain login.keychain
 
       # 2. 构建 App (使用 xcodebuild，不需要 generate-xcodeproj)
       - name: Build App
@@ -70,7 +83,7 @@ jobs:
           echo "APP_PATH=$APP_PATH" >> $GITHUB_ENV
           echo "Built app at: $APP_PATH"
 
-      # 3. 代码签名 (Signing)
+      # 3. 代码签名 (Signing) - 分层签名（不用 --deep）
       - name: Code Sign App
         run: |
           set -e
@@ -99,10 +112,23 @@ jobs:
           </plist>
           EOF
 
-          # 使用 --deep 进行深度签名
-          codesign --force --deep --options runtime \
+          # 分层签名顺序：Frameworks → Plugins → 主 App
+          echo "Signing frameworks..."
+          if [ -d "$APP_PATH/Contents/Frameworks" ]; then
+            find "$APP_PATH/Contents/Frameworks" -type f -perm +111 -exec codesign --force --options runtime --sign "$CERT_NAME" {} \;
+          fi
+
+          echo "Signing plugins and extensions..."
+          find "$APP_PATH/Contents" \( -name "*.framework" -o -name "*.appex" -o -name "*.xpc" \) -exec codesign --force --options runtime --sign "$CERT_NAME" {} \;
+
+          echo "Signing main app..."
+          codesign --force --options runtime \
             --entitlements "Monet_Distribution.entitlements" \
             --sign "$CERT_NAME" "$APP_PATH"
+
+          # 验证签名和 Hardened Runtime
+          echo "Verifying code signature..."
+          codesign -dv --verbose=4 "$APP_PATH" 2>&1 | grep -E "Runtime Version|Team Identifier|Authority" || true
 
           # 验证签名
           codesign --verify --verbose "$APP_PATH"
@@ -142,6 +168,15 @@ jobs:
 
           if [ "$STATUS" != "Accepted" ]; then
             echo "Notarization failed with status: $STATUS"
+            # 尝试获取详细日志
+            SUBMISSION_ID=$(echo "$RESULT" | jq -r '.id')
+            if [ "$SUBMISSION_ID" != "null" ]; then
+              xcrun notarytool log "$SUBMISSION_ID" \
+                --key-id "$KEY_ID" \
+                --issuer "$ISSUER_ID" \
+                --key "AuthKey_${KEY_ID}.p8" \
+                --team-id "$TEAM_ID" || true
+            fi
             exit 1
           fi
 
@@ -154,8 +189,8 @@ jobs:
 
           xcrun stapler staple "$APP_PATH"
 
-          # 验证是否绑定成功（使用 execute 类型）
-          spctl --assess --type execute --verbose "$APP_PATH"
+          # 验证是否绑定成功（使用 verbose=4）
+          spctl --assess --type execute --verbose=4 "$APP_PATH"
 
       # 7. 创建 DMG 文件
       - name: Create DMG
@@ -174,10 +209,62 @@ jobs:
             -srcfolder "$APP_NAME" \
             -ov -format UDZO "$DMG_NAME"
 
-          # 对 DMG 进行签名
-          codesign --force --sign "$CERT_NAME" "$DMG_NAME"
+          # 对 DMG 进行签名（需要重新获取证书名称）
+          CERT_NAME=$(security find-identity -v -s "Developer ID Application" | head -n 1 | awk -F'"' '{print $2}')
+          if [ -n "$CERT_NAME" ]; then
+            codesign --force --sign "$CERT_NAME" "$DMG_NAME"
+          fi
 
           echo "Created DMG: $DMG_NAME"
+
+      # 7b. DMG 公证 (Notarization)
+      - name: Notarize DMG
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
+          ISSUER_ID: ${{ secrets.NOTARY_ISSUER_ID }}
+          PRIVATE_KEY: ${{ secrets.NOTARY_PRIVATE_KEY }}
+        run: |
+          set -e
+
+          VERSION=${{ steps.version.outputs.version }}
+          DMG_NAME="Monet-v${VERSION}.dmg"
+
+          # 保存 p8 密钥文件
+          echo "$PRIVATE_KEY" > AuthKey_${KEY_ID}.p8
+
+          # 提交 DMG 公证并等待结果
+          RESULT=$(xcrun notarytool submit "$DMG_NAME" \
+            --key-id "$KEY_ID" \
+            --issuer "$ISSUER_ID" \
+            --key "AuthKey_${KEY_ID}.p8" \
+            --team-id "$TEAM_ID" \
+            --wait \
+            --output-format json)
+
+          echo "$RESULT" | jq .
+
+          STATUS=$(echo "$RESULT" | jq -r '.status')
+
+          if [ "$STATUS" != "Accepted" ]; then
+            echo "DMG Notarization failed with status: $STATUS"
+            # 尝试获取详细日志
+            SUBMISSION_ID=$(echo "$RESULT" | jq -r '.id')
+            if [ "$SUBMISSION_ID" != "null" ]; then
+              xcrun notarytool log "$SUBMISSION_ID" \
+                --key-id "$KEY_ID" \
+                --issuer "$ISSUER_ID" \
+                --key "AuthKey_${KEY_ID}.p8" \
+                --team-id "$TEAM_ID" || true
+            fi
+            exit 1
+          fi
+
+          # 绑定公证票据到 DMG
+          xcrun stapler staple "$DMG_NAME"
+          echo "DMG notarization and staple successful"
 
       # 8. 重命名并打包已公证的 App 为 ZIP
       - name: Zip Signed App with Version
@@ -204,5 +291,19 @@ jobs:
             Monet-v${{ steps.version.outputs.version }}.app.zip
             Monet-v${{ steps.version.outputs.version }}.dmg
           generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 10. 失败时清理 tag
+      - name: Cleanup Tag on Failure
+        if: failure()
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          echo "Build failed, deleting tag: $TAG_NAME"
+
+          # 删除远程 tag
+          git push origin --delete "$TAG_NAME" || true
+
+          echo "Tag $TAG_NAME has been deleted"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
