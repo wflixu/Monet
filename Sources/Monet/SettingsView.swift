@@ -17,6 +17,7 @@ struct SettingsView: View {
             detailView
         }
         .navigationTitle("settings")
+        .background(Color(NSColor.windowBackgroundColor))
     }
 
     @ViewBuilder
@@ -72,6 +73,7 @@ struct SettingsView: View {
         } icon: {
             icon(for: identifier).view
                 .foregroundStyle(.primary)
+                .imageScale(.small)
         }
         .frame(height: 32)
     }

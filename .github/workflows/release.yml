@@ -209,14 +209,10 @@ jobs:
           set -e
 
           VERSION=${{ steps.version.outputs.version }}
-          APP_NAME="Monet-v${VERSION}.app"
           DMG_NAME="Monet-v${VERSION}.dmg"
 
-          # 复制 App 到临时目录并重命名
-          cp -R "$APP_PATH" "$APP_NAME"
-
-          # 从构建产物中提取 icns 图标
-          ICON_PATH="$APP_PATH/Contents/Resources/AppIcon.icns"
+          # 复制 App 到临时目录（保持原名 Monet.app）
+          cp -R "$APP_PATH" ./Monet.app
 
           # 使用 create-dmg 创建专业 DMG（带拖拽安装界面）
           create-dmg \
@@ -224,11 +220,11 @@ jobs:
             --window-pos 200 120 \
             --window-size 600 400 \
             --icon-size 100 \
-            --icon "$APP_NAME" 150 200 \
-            --hide-extension "$APP_NAME" \
+            --icon "Monet.app" 150 200 \
+            --hide-extension "Monet.app" \
             --app-drop-link 450 200 \
             "$DMG_NAME" \
-            "$APP_NAME"
+            "./Monet.app"
 
           # 对 DMG 进行签名（需要重新获取证书名称）
           CERT_NAME=$(security find-identity -v -s "Developer ID Application" | head -n 1 | awk -F'"' '{print $2}')
@@ -293,14 +289,13 @@ jobs:
           set -e
 
           VERSION=${{ steps.version.outputs.version }}
-          APP_NAME="Monet-v${VERSION}.app"
           ZIP_NAME="Monet-v${VERSION}.app.zip"
 
-          # 复制 App 到临时目录并重命名
-          cp -R "$APP_PATH" "$APP_NAME"
+          # 复制 App 到临时目录（保持原名 Monet.app）
+          cp -R "$APP_PATH" ./Monet.app
 
           # 打包为 ZIP
-          ditto -c -k --sequesterRsrc --keepParent "$APP_NAME" "$ZIP_NAME"
+          ditto -c -k --sequesterRsrc --keepParent "./Monet.app" "$ZIP_NAME"
 
           echo "Created ZIP: $ZIP_NAME"
 
