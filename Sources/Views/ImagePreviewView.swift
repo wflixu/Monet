@@ -20,7 +20,7 @@ struct ImagePreviewView: View {
     var onNavigate: (() -> Void)?
 
     @State private var currentImage: NSImage?
-    @State private var currentAnimator: GIFAnimator?
+    @State private var currentAnimator: ImageAnimator?
     @State private var showFileImporter = false
 
     var body: some View {
@@ -118,9 +118,10 @@ struct ImagePreviewView: View {
         // Load the static NSImage (always — used as fallback and for non-GIF images).
         currentImage = NSImage(contentsOf: url)
 
-        // For GIF files attempt to create an animator (skipped for single-frame GIFs).
-        if url.pathExtension.lowercased() == "gif",
-           let animator = GIFAnimator(url: url),
+        // For animated formats attempt to create an animator.
+        let animatedExtensions = ["gif", "png", "webp"]
+        if animatedExtensions.contains(url.pathExtension.lowercased()),
+           let animator = ImageAnimator(url: url),
            animator.frameCount > 1 {
             currentAnimator = animator
         }

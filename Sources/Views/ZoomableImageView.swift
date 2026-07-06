@@ -10,7 +10,7 @@ final class iMonetImageView: NSView {
 
     /// Attach a GIF animator to this view. The animator drives frame updates
     /// and `draw(_:)` renders the current frame instead of `image`.
-    var animator: GIFAnimator? {
+    var animator: ImageAnimator? {
         didSet {
             oldValue?.stopAnimation()
             oldValue?.onFrameChanged = nil
@@ -303,7 +303,7 @@ extension CGFloat {
 
 struct iMonetImageRepresentable: NSViewRepresentable {
     let image: NSImage?
-    let animator: GIFAnimator?
+    let animator: ImageAnimator?
     let isDarkMode: Bool
     var onStateChanged: ((CGFloat) -> Void)?
     var onViewCreated: ((iMonetImageView) -> Void)?
@@ -337,7 +337,7 @@ struct ZoomableImageView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     let image: NSImage?
-    var animator: GIFAnimator?
+    var animator: ImageAnimator?
     var onScaleChanged: ((CGFloat) -> Void)?
     var onViewCreated: ((iMonetImageView) -> Void)?
     var onClick: (() -> Void)?

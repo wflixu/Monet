@@ -232,8 +232,8 @@ struct ContentView: View {
     /// Routes rotation to display-only (GIF) or file-based (static images).
     func rotateCurrentImage(by degrees: CGFloat) {
         guard let url = appState.currentImageURL else { return }
-        let isGIF = url.pathExtension.lowercased() == "gif"
-        if isGIF {
+        let animatedExtensions = ["gif", "png", "webp"]
+        if animatedExtensions.contains(url.pathExtension.lowercased()) {
             // Display-only rotation — preserves animation frames.
             if degrees > 0 {
                 monetImageView?.rotateRight()
