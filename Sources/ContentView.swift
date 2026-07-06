@@ -156,14 +156,10 @@ struct ContentView: View {
             isInfoPanelVisible.toggle()
 
         case .rotateLeft:
-            if let url = appState.currentImageURL {
-                rotateImage(at: url, by: -90)
-            }
+            rotateCurrentImage(by: -90)
 
         case .rotateRight:
-            if let url = appState.currentImageURL {
-                rotateImage(at: url, by: 90)
-            }
+            rotateCurrentImage(by: 90)
 
         case .deleteImage:
             confirmDelete()
@@ -232,6 +228,22 @@ struct ContentView: View {
     }
 
     // MARK: - Rotation
+
+    /// Routes rotation to display-only (GIF) or file-based (static images).
+    func rotateCurrentImage(by degrees: CGFloat) {
+        guard let url = appState.currentImageURL else { return }
+        let isGIF = url.pathExtension.lowercased() == "gif"
+        if isGIF {
+            // Display-only rotation — preserves animation frames.
+            if degrees > 0 {
+                monetImageView?.rotateRight()
+            } else {
+                monetImageView?.rotateLeft()
+            }
+        } else {
+            rotateImage(at: url, by: degrees)
+        }
+    }
 
     func rotateImage(at url: URL, by degrees: CGFloat) {
         guard let image = NSImage(contentsOf: url) else { return }

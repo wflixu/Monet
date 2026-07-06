@@ -27,6 +27,7 @@
 		8E69FB869C92C7720C05484F /* ImagePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6319D85B5768D1A60B1AB168 /* ImagePreviewView.swift */; };
 		93A1379BCD566D8343C24FF7 /* GeneralSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DB7BF4E678F028AAF3B32E /* GeneralSettingsPane.swift */; };
 		9D985FB2B474A866623B7F5D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F7E6A6C3F4C44A51626E6946 /* Localizable.xcstrings */; };
+		AEB098DB8598FD874E35533E /* GIFAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6AE9546ACB6F4F647E014B /* GIFAnimator.swift */; };
 		C9138238C686A15BEDA8DAB0 /* ThumbnailSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0CDDC442969FF354A26C95 /* ThumbnailSidebar.swift */; };
 		D67BA868BE770C33DF4451C9 /* iMonetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF6B78C1AFDEC2785546F6F /* iMonetTests.swift */; };
 		E40C49D15A7D969A3095DD64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A8DF7FB5C8B81FCDFFD3D1EA /* Assets.xcassets */; };
@@ -50,7 +51,7 @@
 		1ACFC8784D4CAE9E06800964 /* AboutSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSettingsPane.swift; sourceTree = "<group>"; };
 		1E6048A0A99DAD220E0AE0B7 /* iMonet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMonet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A377116EF3B9076356EE31A /* PurchasePromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePromptView.swift; sourceTree = "<group>"; };
-		2AF31CEB3D8E880287B884A7 /* iMonetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iMonetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AF31CEB3D8E880287B884A7 /* iMonet.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iMonet.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF372128F0DD67BCE0921DA /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		44720D706961DCEE5B1001F0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		483750EB91596B83A0426BA2 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
@@ -71,6 +72,7 @@
 		DCF6B78C1AFDEC2785546F6F /* iMonetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMonetTests.swift; sourceTree = "<group>"; };
 		E4446E2C59A2D9E9B7A85C5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E69FF78F45B3EA5FC304A76B /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
+		EC6AE9546ACB6F4F647E014B /* GIFAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFAnimator.swift; sourceTree = "<group>"; };
 		F7E6A6C3F4C44A51626E6946 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +95,14 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
+		8F9E72C0A3D1921BF28F4ED2 /* Animator */ = {
+			isa = PBXGroup;
+			children = (
+				EC6AE9546ACB6F4F647E014B /* GIFAnimator.swift */,
+			);
+			path = Animator;
+			sourceTree = "<group>";
+		};
 		923D18000581138057EB7CCF /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +113,7 @@
 				1189DD7554344568F479679F /* iMonetApp.swift */,
 				566389527660232418F6140C /* Info.plist */,
 				6B93396E58E71904D3E2924B /* NavigationIdentifier.swift */,
+				8F9E72C0A3D1921BF28F4ED2 /* Animator */,
 				E784F83A41FE316D66CA60AD /* Permission */,
 				F9F43D7CBA5BCA1C4DB27FC5 /* Resources */,
 				C9D964F48798C3CF040C8BD7 /* Settings */,
@@ -117,7 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				1E6048A0A99DAD220E0AE0B7 /* iMonet.app */,
-				2AF31CEB3D8E880287B884A7 /* iMonetTests.xctest */,
+				2AF31CEB3D8E880287B884A7 /* iMonet.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -225,7 +236,7 @@
 			packageProductDependencies = (
 			);
 			productName = iMonetTests;
-			productReference = 2AF31CEB3D8E880287B884A7 /* iMonetTests.xctest */;
+			productReference = 2AF31CEB3D8E880287B884A7 /* iMonet.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -235,9 +246,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
+				LastUpgradeCheck = 2650;
 			};
 			buildConfigurationList = F3F93352FF3DE40770C0C242 /* Build configuration list for PBXProject "iMonet" */;
 			developmentRegion = "zh-Hans";
@@ -282,6 +291,7 @@
 				39011A69E3B8FE74145C8B70 /* AppState.swift in Sources */,
 				71B1A859025E9E50DB580209 /* Constants.swift in Sources */,
 				0C8964831CE8704E7BCCCEF3 /* ContentView.swift in Sources */,
+				AEB098DB8598FD874E35533E /* GIFAnimator.swift in Sources */,
 				93A1379BCD566D8343C24FF7 /* GeneralSettingsPane.swift in Sources */,
 				F131C819AB8F9CD242B606C5 /* ImageInfoPanel.swift in Sources */,
 				8E69FB869C92C7720C05484F /* ImagePreviewView.swift in Sources */,
@@ -340,6 +350,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -377,6 +388,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -394,6 +406,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.Monet;
 				PRODUCT_NAME = iMonet;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -421,6 +434,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -458,6 +472,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -482,6 +497,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.Monet;
 				PRODUCT_NAME = iMonet;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;

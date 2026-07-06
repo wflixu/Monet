@@ -20,12 +20,14 @@ struct ImagePreviewView: View {
     var onNavigate: (() -> Void)?
 
     @State private var currentImage: NSImage?
+    @State private var currentAnimator: GIFAnimator?
     @State private var showFileImporter = false
 
     var body: some View {
         Group {
             if let currentImage = currentImage {
                 ZoomableImageView(image: currentImage,
+                    animator: currentAnimator,
                     onScaleChanged: { newScale in
                         scale = CGSize(width: newScale, height: newScale)
                     },
@@ -108,8 +110,19 @@ struct ImagePreviewView: View {
             return
         }
         let url = appState.imageFiles[appState.selectedImageIndex]
-        if let image = NSImage(contentsOf: url) {
-            currentImage = image
+
+        // Stop any running animation from the previous image.
+        currentAnimator?.stopAnimation()
+        currentAnimator = nil
+
+        // Load the static NSImage (always — used as fallback and for non-GIF images).
+        currentImage = NSImage(contentsOf: url)
+
+        // For GIF files attempt to create an animator (skipped for single-frame GIFs).
+        if url.pathExtension.lowercased() == "gif",
+           let animator = GIFAnimator(url: url),
+           animator.frameCount > 1 {
+            currentAnimator = animator
         }
     }
 
