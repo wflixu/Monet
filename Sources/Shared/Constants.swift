@@ -8,11 +8,22 @@
 import Foundation
 
 enum Constants {
-    /// The marketing version (e.g. "1.1.1").
-    static let appVersion = Bundle.main.versionString!
+    /// The marketing version (e.g. "2.0.0").  Reads from CFBundleShortVersionString;
+    /// falls back when the Info.plist variable is not expanded (SPM / swift run).
+    static let appVersion: String = {
+        let raw = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
+        // Xcode substitutes $(MARKETING_VERSION) at build time; SPM leaves the literal.
+        if raw.isEmpty || raw.hasPrefix("$(") { return "2.0.0" }
+        return raw
+    }()
 
-    /// The build version (e.g. "20260606.1841").
-    static let buildVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "0"
+    /// The build version (e.g. "20260604001").  Reads from CFBundleVersion;
+    /// falls back when the Info.plist variable is not expanded.
+    static let buildVersion: String = {
+        let raw = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
+        if raw.isEmpty || raw.hasPrefix("$(") { return "20260604001" }
+        return raw
+    }()
 
     /// The bundle identifier of the app.
     static let bundleIdentifier = Bundle.main.bundleIdentifier!

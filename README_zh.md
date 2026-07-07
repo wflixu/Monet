@@ -8,7 +8,7 @@
 
 # iMonet
 
-专为鼠标用户优化的 macOS 看图工具。支持 GIF、APNG、WebP 动画播放。基于 SwiftUI 构建 — 零外部依赖。
+一款现代 macOS 看图工具，原生支持 GIF、APNG、WebP 动画播放。基于 SwiftUI 构建 — 零外部依赖。
 
 [![Download on the App Store](https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg)](https://apps.apple.com/cn/app/imonet/id6770070921?mt=12)
 
@@ -21,6 +21,8 @@ https://github.com/user-attachments/assets/f9faccb3-531e-4000-bc7f-e58fb922e6da
 ## 截屏
 
 <div align="center">
+   <img src="assets/imonet-screenshot.png" width="720" alt="iMonet 截屏"/>
+   <br/><br/>
    <table>
      <tr>
        <td><img src="assets/iMonet-viewer.png" width="360" alt="iMonet 浏览界面"/></td>
