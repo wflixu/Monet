@@ -8,7 +8,7 @@
 
 # iMonet
 
-An image viewer for macOS optimized for mouse users. Built with SwiftUI.
+An image viewer for macOS optimized for mouse users. Supports animated GIF, APNG, and WebP playback. Built with SwiftUI — zero external dependencies.
 
 [![Download on the App Store](https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg)](https://apps.apple.com/cn/app/imonet/id6770070921?mt=12)
 
@@ -33,7 +33,8 @@ https://github.com/user-attachments/assets/f9faccb3-531e-4000-bc7f-e58fb922e6da
 ### Image Browsing
 - **Folder Indexing**: Automatically scans and indexes all images in the same folder
 - **Persistent Permissions**: Uses security-scoped bookmarks so you only grant folder access once
-- **Supported Formats**: PNG, JPEG, GIF, WebP
+- **Supported Formats**: PNG, JPEG, GIF (animated), APNG (animated), WebP (animated)
+- **Animation Playback**: Frame-accurate playback with loop support, zoom/pan during animation
 - **Sidebar**: Thumbnail strip for quick navigation, auto-hides with single image
 
 ### Mouse & Keyboard
@@ -76,6 +77,8 @@ iMonet/
 │   ├── AppState.swift              # Global app state
 │   ├── ContentView.swift           # Main layout, chrome auto-hide logic
 │   ├── NavigationIdentifier.swift  # Settings navigation
+│   ├── Animator/
+│   │   └── ImageAnimator.swift     # Animated GIF/APNG/WebP decoder
 │   ├── Views/
 │   │   ├── ImagePreviewView.swift  # Image display with keyboard events
 │   │   ├── ImageThumbnailView.swift
@@ -100,7 +103,7 @@ iMonet/
 
 ## Dependencies
 
-- **[SwiftUITooltip](https://github.com/quassum/SwiftUI-Tooltip)** — tooltips
+None — iMonet uses only Apple frameworks (SwiftUI, AppKit, ImageIO). Zero external dependencies.
 
 ## Keyboard Shortcuts
 
