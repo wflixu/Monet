@@ -143,6 +143,9 @@ struct ContentView: View {
         case .scalePlus:
             monetImageView?.zoomIn()
 
+        case .actualSize:
+            monetImageView?.actualSize()
+
         case .showPrev:
             navigateToPrevious()
 

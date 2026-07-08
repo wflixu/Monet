@@ -48,6 +48,10 @@ struct iMonetApp: App {
                     appDelegate.openFolder()
                 }
                 .keyboardShortcut("o", modifiers: .command)
+                Button("Print") {
+                    NotificationCenter.default.post(name: Notification.Name("print-image"), object: nil)
+                }
+                .keyboardShortcut("p", modifiers: .command)
             }
             CommandGroup(replacing: .appSettings) {
                 OpenSettingsButton()

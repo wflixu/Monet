@@ -60,6 +60,24 @@ struct ToolBarView: View {
                 .help("Zoom in")
 
             Button(action: {
+                self.onTap(.actualSize)
+            }) {
+                Image(systemName: "arrow.up.left.and.arrow.down.right")
+                    .font(.system(size: 20))
+                    .foregroundStyle(.primary)
+            }.buttonStyle(PlainButtonStyle())
+                .help("Actual size")
+
+            Button(action: {
+                self.onTap(.centerFill)
+            }) {
+                Image(systemName: "rectangle.center.inset.filled")
+                    .font(.system(size: 20))
+                    .foregroundStyle(.primary)
+            }.buttonStyle(PlainButtonStyle())
+                .help("Fit to window")
+
+            Button(action: {
                 self.onTap(.showPrev)
             }) {
                 Image(systemName: "chevron.left.circle")
@@ -78,15 +96,6 @@ struct ToolBarView: View {
                     .foregroundStyle(.primary)
             }.buttonStyle(PlainButtonStyle())
                 .help("Next picture")
-
-            Button(action: {
-                self.onTap(.centerFill)
-            }) {
-                Image(systemName: "rectangle.center.inset.filled")
-                    .font(.system(size: 20))
-                    .foregroundStyle(.primary)
-            }.buttonStyle(PlainButtonStyle())
-                .help("Fit to window")
 
             Divider()
 
@@ -143,19 +152,25 @@ struct ToolBarView: View {
         .background(colorScheme == .dark ? Color.gray.opacity(0.6) : Color.white.opacity(1))
         .clipShape(.rect(cornerRadius: 4))
         .shadow(radius: 2)
-        .onHover { hovering in
-            if hovering {
-                onHoverEnter?()
-            } else {
-                onHoverExit?()
-            }
-        }
+        .overlay(
+            Rectangle()
+                .fill(Color.clear)
+                .allowsHitTesting(false)
+                .onHover { hovering in
+                    if hovering {
+                        onHoverEnter?()
+                    } else {
+                        onHoverExit?()
+                    }
+                }
+        )
     }
 }
 
 enum ToolbarActionIdentifier: String, Hashable {
     case scaleMinis
     case scalePlus
+    case actualSize
     case showPrev
     case showNext
     case toggleNav

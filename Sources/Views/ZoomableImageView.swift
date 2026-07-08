@@ -272,12 +272,26 @@ final class iMonetImageView: NSView {
 
     // MARK: - Toolbar Zoom Actions
 
+    /// Required by AppKit's print infrastructure.
+    /// `NSPrintOperation.run()` verifies that the responder chain contains a
+    /// responder to `printDocument:` before presenting the print panel.
+    /// Since `iMonetImageView` is an `NSView` (part of the responder chain),
+    /// placing the action here satisfies that check.
+    @objc func printDocument(_ sender: Any?) { }
+
     func zoomIn() {
         zoomAtCenter(factor: 1.25)
     }
 
     func zoomOut() {
         zoomAtCenter(factor: 0.8)
+    }
+
+    func actualSize() {
+        magnification = 1.0
+        offset = .zero
+        needsDisplay = true
+        onStateChanged?(magnification)
     }
 
     private func zoomAtCenter(factor: CGFloat) {

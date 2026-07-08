@@ -46,6 +46,9 @@ struct ImagePreviewView: View {
                         NSPasteboard.general.clearContents()
                         NSPasteboard.general.writeObjects([currentImage])
                     }
+                    Button("Print") {
+                        printImage(currentImage)
+                    }
                 }
             } else {
                 Button("Select Image File") {
@@ -72,6 +75,11 @@ struct ImagePreviewView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("open-image"))) { _ in
             refreshImage()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("print-image"))) { _ in
+            if let image = currentImage {
+                printImage(image)
+            }
         }
         .onAppear {
             setupKeyEvents()
@@ -124,6 +132,17 @@ struct ImagePreviewView: View {
            let animator = ImageAnimator(url: url),
            animator.frameCount > 1 {
             currentAnimator = animator
+        }
+    }
+
+    private func printImage(_ image: NSImage) {
+        let imageView = NSImageView(frame: NSRect(origin: .zero, size: image.size))
+        imageView.image = image
+        imageView.imageScaling = .scaleProportionallyUpOrDown
+
+        let printOperation = NSPrintOperation(view: imageView)
+        if printOperation.run() {
+            logger.info("Print job submitted for image (\(image.size.width)x\(image.size.height))")
         }
     }
 
