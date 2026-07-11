@@ -13,7 +13,7 @@ enum Constants {
     static let appVersion: String = {
         let raw = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
         // Xcode substitutes $(MARKETING_VERSION) at build time; SPM leaves the literal.
-        if raw.isEmpty || raw.hasPrefix("$(") { return "2.0.0" }
+        if raw.isEmpty || raw.hasPrefix("$(") { return "2.1.0" }
         return raw
     }()
 
@@ -21,7 +21,7 @@ enum Constants {
     /// falls back when the Info.plist variable is not expanded.
     static let buildVersion: String = {
         let raw = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
-        if raw.isEmpty || raw.hasPrefix("$(") { return "20260604001" }
+        if raw.isEmpty || raw.hasPrefix("$(") { return "20260711001" }
         return raw
     }()
 
