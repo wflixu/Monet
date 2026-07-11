@@ -21,7 +21,7 @@ enum Constants {
     /// falls back when the Info.plist variable is not expanded.
     static let buildVersion: String = {
         let raw = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
-        if raw.isEmpty || raw.hasPrefix("$(") { return "20260711002" }
+        if raw.isEmpty || raw.hasPrefix("$(") { return "20260711003" }
         return raw
     }()
 
