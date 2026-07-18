@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 100;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -212,11 +212,7 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			name = iMonet;
-			packageProductDependencies = (
-			);
 			productName = iMonet;
 			productReference = 1E6048A0A99DAD220E0AE0B7 /* iMonet.app */;
 			productType = "com.apple.product-type.application";
@@ -233,8 +229,6 @@
 				BC290BA52AECA3722C09D2B0 /* PBXTargetDependency */,
 			);
 			name = iMonetTests;
-			packageProductDependencies = (
-			);
 			productName = iMonetTests;
 			productReference = 2AF31CEB3D8E880287B884A7 /* iMonet.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -258,7 +252,7 @@
 			);
 			mainGroup = C1186D22F9C7B15723C1445B;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 100;
 			productRefGroup = A00E15EA16988AA6F4D9C0A2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -272,19 +266,16 @@
 /* Begin PBXResourcesBuildPhase section */
 		3DE9C20666336CE078D78C65 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				E40C49D15A7D969A3095DD64 /* Assets.xcassets in Resources */,
 				9D985FB2B474A866623B7F5D /* Localizable.xcstrings in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		22118166655C7B9F31A3E86E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				06E09E2661AAD35BAE71F7A4 /* AboutSettingsPane.swift in Sources */,
 				1AF3925A92DD5E5D7DFB16EB /* AppLogger.swift in Sources */,
@@ -309,15 +300,12 @@
 				004470CBBAB00E6A180F02F4 /* ZoomableImageView.swift in Sources */,
 				3C6C8B5838C4AB2B6231E6BB /* iMonetApp.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		724F8261929BE185ED4C47B3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				D67BA868BE770C33DF4451C9 /* iMonetTests.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -330,7 +318,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		09D35CFA69C0E38FFA44C140 /* Release */ = {
+		09D35CFA69C0E38FFA44C140 /* Release configuration for PBXNativeTarget "iMonetTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -345,7 +333,7 @@
 			};
 			name = Release;
 		};
-		3329DA18F972CC53D74BA489 /* Release */ = {
+		3329DA18F972CC53D74BA489 /* Release configuration for PBXProject "iMonet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -414,7 +402,7 @@
 			};
 			name = Release;
 		};
-		B1D3291E9E885487C1B2E121 /* Debug */ = {
+		B1D3291E9E885487C1B2E121 /* Debug configuration for PBXNativeTarget "iMonetTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -429,7 +417,7 @@
 			};
 			name = Debug;
 		};
-		D3C351985D28F104FBB77741 /* Debug */ = {
+		D3C351985D28F104FBB77741 /* Debug configuration for PBXProject "iMonet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -505,7 +493,7 @@
 			};
 			name = Debug;
 		};
-		ED2DD815A11A7EB6A61C5A74 /* Release */ = {
+		ED2DD815A11A7EB6A61C5A74 /* Release configuration for PBXNativeTarget "iMonet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -527,7 +515,7 @@
 			};
 			name = Release;
 		};
-		F8B1DF15C4BC06F8A5ECD600 /* Debug */ = {
+		F8B1DF15C4BC06F8A5ECD600 /* Debug configuration for PBXNativeTarget "iMonet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -555,28 +543,25 @@
 		193092BD85DE2A5943956B86 /* Build configuration list for PBXNativeTarget "iMonetTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B1D3291E9E885487C1B2E121 /* Debug */,
-				09D35CFA69C0E38FFA44C140 /* Release */,
+				B1D3291E9E885487C1B2E121 /* Debug configuration for PBXNativeTarget "iMonetTests" */,
+				09D35CFA69C0E38FFA44C140 /* Release configuration for PBXNativeTarget "iMonetTests" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 		C152093C67D5756887A8F342 /* Build configuration list for PBXNativeTarget "iMonet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F8B1DF15C4BC06F8A5ECD600 /* Debug */,
-				ED2DD815A11A7EB6A61C5A74 /* Release */,
+				F8B1DF15C4BC06F8A5ECD600 /* Debug configuration for PBXNativeTarget "iMonet" */,
+				ED2DD815A11A7EB6A61C5A74 /* Release configuration for PBXNativeTarget "iMonet" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 		F3F93352FF3DE40770C0C242 /* Build configuration list for PBXProject "iMonet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D3C351985D28F104FBB77741 /* Debug */,
-				3329DA18F972CC53D74BA489 /* Release */,
+				D3C351985D28F104FBB77741 /* Debug configuration for PBXProject "iMonet" */,
+				3329DA18F972CC53D74BA489 /* Release configuration for PBXProject "iMonet" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
