@@ -1,6 +1,7 @@
-[![Swift 6.0](https://img.shields.io/badge/Swift-6.0-ED523F.svg?style=flat)](https://swift.org/)
+[![Swift 6.2](https://img.shields.io/badge/Swift-6.2-ED523F.svg?style=flat)](https://swift.org/)
 [![SwiftUI](https://img.shields.io/badge/SwiftUI-✓-orange)](https://developer.apple.com/xcode/swiftui/)
-[![macOS 15](https://img.shields.io/badge/macOS15-Compatible-green)](https://www.apple.com/macos/)
+[![macOS 15](https://img.shields.io/badge/macOS_15-Compatible-green)](https://www.apple.com/macos/)
+[![App Store](https://img.shields.io/badge/App_Store-Download-blue)](https://apps.apple.com/cn/app/imonet/id6770070921?mt=12)
 
 <div align="center">
    <img src="assets/iMonet-logo.png" width="128" height="128" alt="iMonet Logo"/>
@@ -11,10 +12,6 @@
 A modern image viewer for macOS with native animated GIF, APNG, and WebP playback. Built with SwiftUI — zero external dependencies.
 
 [![Download on the App Store](https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg)](https://apps.apple.com/cn/app/imonet/id6770070921?mt=12)
-
-## Demo
-
-https://github.com/user-attachments/assets/f9faccb3-531e-4000-bc7f-e58fb922e6da
 
 ## Screenshots
 
@@ -37,24 +34,42 @@ https://github.com/user-attachments/assets/f9faccb3-531e-4000-bc7f-e58fb922e6da
 - **Persistent Permissions**: Uses security-scoped bookmarks so you only grant folder access once
 - **Supported Formats**: PNG, JPEG, GIF (animated), APNG (animated), WebP (animated)
 - **Animation Playback**: Frame-accurate playback with loop support, zoom/pan during animation
-- **Sidebar**: Thumbnail strip for quick navigation, auto-hides with single image
+- **Thumbnail Sidebar**: Quick navigation strip, auto-hides when only one image is open
+
+### Image Operations
+- **Rotate**: 90° left/right rotation — display-only for animated formats, lossless file-based for static images
+- **Delete**: Move to Trash with confirmation dialog
+- **Print**: Print current image via standard macOS print panel
+- **Copy**: Copy image path or image data to clipboard via context menu
+
+### View Controls
+- **Zoom**: Cmd + scroll wheel (centered at mouse), pinch-to-zoom trackpad gesture, toolbar zoom buttons
+- **Actual Size / Fit to Window**: One-click reset
+- **Pan**: Mouse drag on zoomed images
 
 ### Mouse & Keyboard
-- **Arrow Keys**: ←/→/↑/↓ to navigate images
-- **Cmd + Scroll**: Zoom in/out centered at mouse position
-- **Mouse Drag**: Pan around zoomed images
-- **Click to Reveal**: Click image area to show controls, auto-hide after 5s
+- **← / → / ↑ / ↓**: Navigate between images
+- **Backspace / Forward Delete**: Delete current image
+- **Cmd + O**: Open folder or image file
+- **Cmd + P**: Print current image
+- **Cmd + ,**: Open Settings
+- **Click to Reveal**: Click image area to toggle chrome visibility, auto-hide after 5 seconds
 
 ### Floating UI
-- **Title & Toolbar**: Appear on click, auto-hide after 5 seconds; hover toolbar to keep visible
-- **Image Info Panel** (right): Pixel size, file size, format, modification date
+- **Bottom Toolbar**: Scale, navigation, rotation, info panel toggle, delete — auto-hides with chrome
+- **Image Info Panel** (right): Pixel dimensions, file size, format, modification date
+- **Navigation Arrows**: Left/right edge overlays for quick browsing
 - **Dark / Light Mode**: Full adaptive theme support
-- **Menu Bar Extra**: Quick access from the menu bar
+
+### In-App Purchase
+- **Yearly Support**: Annual subscription with full access to all current and future professional features
+- **Lifetime Support**: One-time purchase, permanent access to all features forever
+- Professional features like RAW camera format support are planned for future releases
 
 ## Requirements
 
 - macOS 15.0 or later
-- Swift 6.0+
+- Swift 6.2+
 
 ## Build & Run
 
@@ -74,47 +89,45 @@ xcodebuild -scheme iMonet -configuration Release -derivedDataPath build -destina
 
 ```
 iMonet/
-├── Sources/iMonet/
-│   ├── iMonetApp.swift              # App entry point, scenes, AppDelegate
-│   ├── AppState.swift              # Global app state
-│   ├── ContentView.swift           # Main layout, chrome auto-hide logic
-│   ├── NavigationIdentifier.swift  # Settings navigation
+├── Sources/
+│   ├── iMonetApp.swift                  # App entry point, scenes, AppDelegate
+│   ├── AppState.swift                   # Global app state
+│   ├── ContentView.swift                # Main layout, chrome auto-hide, rotation, delete
+│   ├── NavigationIdentifier.swift       # Settings navigation identifiers
 │   ├── Animator/
-│   │   └── ImageAnimator.swift     # Animated GIF/APNG/WebP decoder
+│   │   └── ImageAnimator.swift          # Animated GIF/APNG/WebP frame decoder
 │   ├── Views/
-│   │   ├── ImagePreviewView.swift  # Image display with keyboard events
-│   │   ├── ImageThumbnailView.swift
-│   │   ├── ThumbnailSidebar.swift  # Left thumbnail strip
-│   │   ├── ImageInfoPanel.swift    # Right info panel (pixels, size, format)
-│   │   ├── ToolbarView.swift       # Bottom floating toolbar
-│   │   └── ZoomableImageView.swift # Zoom & pan image view (AppKit)
+│   │   ├── ImagePreviewView.swift       # Image loading, keyboard events, context menu
+│   │   ├── ImageThumbnailView.swift     # Individual thumbnail rendering
+│   │   ├── ThumbnailSidebar.swift       # Left thumbnail strip
+│   │   ├── ImageInfoPanel.swift         # Right info panel (pixels, size, format, date)
+│   │   ├── ToolbarView.swift            # Bottom floating toolbar
+│   │   └── ZoomableImageView.swift      # Zoom & pan image view (AppKit NSView)
 │   ├── Settings/
-│   │   ├── GeneralSettingsPane.swift
-│   │   ├── AboutSettingsPane.swift
-│   │   ├── SettingsView.swift
-│   │   └── SettingsWindow.swift
+│   │   ├── GeneralSettingsPane.swift    # General preferences
+│   │   ├── AboutSettingsPane.swift      # About & purchase
+│   │   ├── SettingsView.swift           # Settings container
+│   │   └── SettingsWindow.swift         # Settings window scene
+│   ├── Store/
+│   │   ├── StoreManager.swift           # StoreKit integration
+│   │   ├── PurchasePromptView.swift     # Purchase prompt UI
+│   │   └── UsageTracker.swift           # Launch tracking & prompt scheduling
 │   ├── Permission/
-│   │   └── PermissionsManager.swift
+│   │   └── PermissionsManager.swift     # Security-scoped bookmark management
 │   └── Shared/
-│       ├── AppLogger.swift         # @AppLog property wrapper
-│       ├── Constants.swift
-│       └── Util.swift              # ObjectAssociation
+│       ├── AppLogger.swift              # @AppLog property wrapper
+│       ├── Constants.swift              # App constants, format lists
+│       └── Util.swift                   # ObjectAssociation helper
 ├── Tests/
+│   └── iMonetTests/
+├── assets/                               # README screenshots & logo
+├── specs/                                # Design documents
 └── Package.swift
 ```
 
 ## Dependencies
 
-None — iMonet uses only Apple frameworks (SwiftUI, AppKit, ImageIO). Zero external dependencies.
-
-## Keyboard Shortcuts
-
-| Key | Action |
-|-----|--------|
-| ← / → | Previous / Next image |
-| ↑ / ↓ | Previous / Next image |
-| Cmd + Scroll | Zoom in/out at mouse position |
-| Mouse Drag | Pan zoomed image |
+None — iMonet uses only Apple frameworks (SwiftUI, AppKit, ImageIO, StoreKit). Zero external dependencies.
 
 ## License
 
