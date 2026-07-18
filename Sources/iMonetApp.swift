@@ -100,7 +100,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         logger.info("applicationDidFinishLaunching  .......")
-        UsageTracker.recordLaunch()
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+        UsageTracker.recordLaunch(currentVersion: version)
         Task {
             await appState?.storeManager.loadProducts()
             await appState?.storeManager.verifyEntitlement()

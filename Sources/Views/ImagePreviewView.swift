@@ -123,6 +123,10 @@ struct ImagePreviewView: View {
         currentAnimator?.stopAnimation()
         currentAnimator = nil
 
+        // Reset display-only view state (rotation, zoom, pan) for the new image
+        monetImageView?.rotationDegrees = 0
+        monetImageView?.fitToWindow()
+
         // Load the static NSImage (always — used as fallback and for non-GIF images).
         currentImage = NSImage(contentsOf: url)
 

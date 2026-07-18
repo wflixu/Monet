@@ -249,39 +249,92 @@ struct ContentView: View {
     }
 
     func rotateImage(at url: URL, by degrees: CGFloat) {
-        guard let image = NSImage(contentsOf: url) else { return }
-
-        let isVerticalFlip = Int(abs(degrees)) % 180 == 90
-        let newSize = isVerticalFlip
-            ? NSSize(width: image.size.height, height: image.size.width)
-            : image.size
-
-        let rotated = NSImage(size: newSize, flipped: false) { rect in
-            let transform = NSAffineTransform()
-            transform.translateX(by: newSize.width / 2, yBy: newSize.height / 2)
-            transform.rotate(byDegrees: degrees)
-            transform.translateX(by: -image.size.width / 2, yBy: -image.size.height / 2)
-            transform.concat()
-            image.draw(in: NSRect(origin: .zero, size: image.size))
-            return true
+        guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+              let cgImage = CGImageSourceCreateImageAtIndex(source, 0, nil)
+        else {
+            logger.error("Failed to read image for rotation: \(url.lastPathComponent)")
+            return
         }
 
-        guard let tiff = rotated.tiffRepresentation,
-              let bitmap = NSBitmapImageRep(data: tiff) else { return }
+        // 用 CGContext 实际绘制旋转后的像素数据，而非设置 EXIF 标签
+        // 必须归一化到 0..<360，否则负数取余会导致宽高不交换（Swift 中 % 对负数返回负数）
+        let rawAngle = Int(degrees) % 360
+        let angle = rawAngle >= 0 ? rawAngle : rawAngle + 360
+        let rad = CGFloat(angle) * .pi / 180
+        let w = cgImage.width
+        let h = cgImage.height
+        let rotatedW = (angle % 180 == 90) ? h : w
+        let rotatedH = (angle % 180 == 90) ? w : h
 
-        let ext = url.pathExtension.lowercased()
-        let data: Data?
-        switch ext {
-        case "png":  data = bitmap.representation(using: .png, properties: [:])
-        case "jpg", "jpeg": data = bitmap.representation(using: .jpeg, properties: [:])
-        case "gif":  data = bitmap.representation(using: .gif, properties: [:])
-        case "webp": data = bitmap.representation(using: .png, properties: [:])
-        default:     data = bitmap.representation(using: .png, properties: [:])
+        let colorSpace = cgImage.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!
+        let bitmapInfo = cgImage.bitmapInfo
+
+        guard let ctx = CGContext(
+            data: nil,
+            width: rotatedW,
+            height: rotatedH,
+            bitsPerComponent: cgImage.bitsPerComponent,
+            bytesPerRow: 0,
+            space: colorSpace,
+            bitmapInfo: bitmapInfo.rawValue
+        ) else {
+            logger.error("Failed to create bitmap context for rotation")
+            return
         }
 
-        guard let data else { return }
+        ctx.translateBy(x: CGFloat(rotatedW) / 2, y: CGFloat(rotatedH) / 2)
+        ctx.rotate(by: rad)
+        ctx.translateBy(x: -CGFloat(w) / 2, y: -CGFloat(h) / 2)
+        ctx.draw(cgImage, in: CGRect(x: 0, y: 0, width: w, height: h))
+
+        guard let rotatedImage = ctx.makeImage() else {
+            logger.error("Failed to create rotated CGImage")
+            return
+        }
+
+        guard let uti = CGImageSourceGetType(source) else {
+            logger.error("Cannot determine image UTI")
+            return
+        }
+
+        let outputData = NSMutableData()
+        guard let destination = CGImageDestinationCreateWithData(outputData as CFMutableData, uti, 1, nil)
+        else {
+            logger.error("Failed to create image destination")
+            return
+        }
+
+        // JPEG: 从原始文件体积估算压缩质量，保持体积稳定
+        let quality: Double
+        if uti as String == "public.jpeg" {
+            let originalSize = (try? FileManager.default.attributesOfItem(atPath: url.path))
+                .flatMap { $0[.size] as? UInt64 } ?? 0
+            let pixelCount = w * h
+            let bpp = pixelCount > 0 ? Double(originalSize) / Double(pixelCount) : 0
+
+            switch bpp {
+            case 2.0...:   quality = 0.93
+            case 1.2..<2.0: quality = 0.90
+            case 0.6..<1.2: quality = 0.85
+            case 0.3..<0.6: quality = 0.80
+            default:       quality = 0.78
+            }
+        } else {
+            quality = 1.0 // PNG/GIF/WebP 无损
+        }
+
+        let properties: NSDictionary = [
+            kCGImageDestinationLossyCompressionQuality: quality
+        ]
+
+        CGImageDestinationAddImage(destination, rotatedImage, properties)
+        guard CGImageDestinationFinalize(destination) else {
+            logger.error("Failed to finalize image destination")
+            return
+        }
+
         do {
-            try data.write(to: url)
+            try outputData.write(to: url, options: .atomic)
             NotificationCenter.default.post(name: Notification.Name("open-image"), object: nil)
         } catch {
             logger.error("Failed to save rotated image: \(error.localizedDescription)")
@@ -295,7 +348,11 @@ struct ContentView: View {
             self.window = window
         }
         showChrome()
-        checkPurchasePrompt()
+        // Defer purchase prompt to avoid interrupting first-launch experience
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(5))
+            checkPurchasePrompt()
+        }
     }
 
     func checkPurchasePrompt() {
