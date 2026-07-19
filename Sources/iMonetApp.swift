@@ -48,6 +48,10 @@ struct iMonetApp: App {
                     appDelegate.openFolder()
                 }
                 .keyboardShortcut("o", modifiers: .command)
+                Button("Print") {
+                    NotificationCenter.default.post(name: Notification.Name("print-image"), object: nil)
+                }
+                .keyboardShortcut("p", modifiers: .command)
             }
             CommandGroup(replacing: .appSettings) {
                 OpenSettingsButton()
@@ -96,7 +100,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         logger.info("applicationDidFinishLaunching  .......")
-        UsageTracker.recordLaunch()
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+        UsageTracker.recordLaunch(currentVersion: version)
         Task {
             await appState?.storeManager.loadProducts()
             await appState?.storeManager.verifyEntitlement()

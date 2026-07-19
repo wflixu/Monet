@@ -11,8 +11,8 @@ settings:
   base:
     PRODUCT_NAME: iMonet
     PRODUCT_BUNDLE_IDENTIFIER: cn.wflixu.Monet
-    MARKETING_VERSION: "2.0.0"
-    CURRENT_PROJECT_VERSION: "20260604001"
+    MARKETING_VERSION: "2.1.0"
+    CURRENT_PROJECT_VERSION: "20260711003"
     SWIFT_VERSION: "6.0"
     SWIFT_STRICT_CONCURRENCY: complete
     ENABLE_PREVIEWS: true
@@ -40,6 +40,8 @@ targets:
       path: Sources/Info.plist
       properties:
         CFBundleIconName: AppIcon
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         ITSAppUsesNonExemptEncryption: false
         CFBundleDocumentTypes:
           - CFBundleTypeName: PNG Image

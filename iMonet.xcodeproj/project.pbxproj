@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 100;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,6 +19,7 @@
 		39011A69E3B8FE74145C8B70 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A40D916846AF2D3BA5E90CA /* AppState.swift */; };
 		3C6C8B5838C4AB2B6231E6BB /* iMonetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1189DD7554344568F479679F /* iMonetApp.swift */; };
 		3D24E9465B823F0FC737AFBD /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819AF6D090A31982BC9D496B /* StoreManager.swift */; };
+		53BCAF20D587F1EB8BF8CA65 /* ImageAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138A37875D53BC5406B91A92 /* ImageAnimator.swift */; };
 		5629075073E698F246D7C533 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69FF78F45B3EA5FC304A76B /* ToolbarView.swift */; };
 		59F8BBF8205D995C96BBFD36 /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C1F4D1359C2CB5DF96FC81 /* SettingsWindow.swift */; };
 		5DD819A6D57A29EF2C6A2829 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44720D706961DCEE5B1001F0 /* SettingsView.swift */; };
@@ -46,11 +47,12 @@
 /* Begin PBXFileReference section */
 		022972598DEF76CB27CE00FE /* ImageThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThumbnailView.swift; sourceTree = "<group>"; };
 		1189DD7554344568F479679F /* iMonetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMonetApp.swift; sourceTree = "<group>"; };
+		138A37875D53BC5406B91A92 /* ImageAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnimator.swift; sourceTree = "<group>"; };
 		1A40D916846AF2D3BA5E90CA /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		1ACFC8784D4CAE9E06800964 /* AboutSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSettingsPane.swift; sourceTree = "<group>"; };
 		1E6048A0A99DAD220E0AE0B7 /* iMonet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMonet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A377116EF3B9076356EE31A /* PurchasePromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePromptView.swift; sourceTree = "<group>"; };
-		2AF31CEB3D8E880287B884A7 /* iMonetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iMonetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AF31CEB3D8E880287B884A7 /* iMonet.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iMonet.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CF372128F0DD67BCE0921DA /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		44720D706961DCEE5B1001F0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		483750EB91596B83A0426BA2 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
@@ -93,6 +95,14 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
+		8F9E72C0A3D1921BF28F4ED2 /* Animator */ = {
+			isa = PBXGroup;
+			children = (
+				138A37875D53BC5406B91A92 /* ImageAnimator.swift */,
+			);
+			path = Animator;
+			sourceTree = "<group>";
+		};
 		923D18000581138057EB7CCF /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +113,7 @@
 				1189DD7554344568F479679F /* iMonetApp.swift */,
 				566389527660232418F6140C /* Info.plist */,
 				6B93396E58E71904D3E2924B /* NavigationIdentifier.swift */,
+				8F9E72C0A3D1921BF28F4ED2 /* Animator */,
 				E784F83A41FE316D66CA60AD /* Permission */,
 				F9F43D7CBA5BCA1C4DB27FC5 /* Resources */,
 				C9D964F48798C3CF040C8BD7 /* Settings */,
@@ -117,7 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				1E6048A0A99DAD220E0AE0B7 /* iMonet.app */,
-				2AF31CEB3D8E880287B884A7 /* iMonetTests.xctest */,
+				2AF31CEB3D8E880287B884A7 /* iMonet.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -201,11 +212,7 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			name = iMonet;
-			packageProductDependencies = (
-			);
 			productName = iMonet;
 			productReference = 1E6048A0A99DAD220E0AE0B7 /* iMonet.app */;
 			productType = "com.apple.product-type.application";
@@ -222,10 +229,8 @@
 				BC290BA52AECA3722C09D2B0 /* PBXTargetDependency */,
 			);
 			name = iMonetTests;
-			packageProductDependencies = (
-			);
 			productName = iMonetTests;
-			productReference = 2AF31CEB3D8E880287B884A7 /* iMonetTests.xctest */;
+			productReference = 2AF31CEB3D8E880287B884A7 /* iMonet.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -235,9 +240,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
+				LastUpgradeCheck = 2660;
 			};
 			buildConfigurationList = F3F93352FF3DE40770C0C242 /* Build configuration list for PBXProject "iMonet" */;
 			developmentRegion = "zh-Hans";
@@ -249,7 +252,7 @@
 			);
 			mainGroup = C1186D22F9C7B15723C1445B;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 100;
 			productRefGroup = A00E15EA16988AA6F4D9C0A2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -263,19 +266,16 @@
 /* Begin PBXResourcesBuildPhase section */
 		3DE9C20666336CE078D78C65 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				E40C49D15A7D969A3095DD64 /* Assets.xcassets in Resources */,
 				9D985FB2B474A866623B7F5D /* Localizable.xcstrings in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		22118166655C7B9F31A3E86E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				06E09E2661AAD35BAE71F7A4 /* AboutSettingsPane.swift in Sources */,
 				1AF3925A92DD5E5D7DFB16EB /* AppLogger.swift in Sources */,
@@ -283,6 +283,7 @@
 				71B1A859025E9E50DB580209 /* Constants.swift in Sources */,
 				0C8964831CE8704E7BCCCEF3 /* ContentView.swift in Sources */,
 				93A1379BCD566D8343C24FF7 /* GeneralSettingsPane.swift in Sources */,
+				53BCAF20D587F1EB8BF8CA65 /* ImageAnimator.swift in Sources */,
 				F131C819AB8F9CD242B606C5 /* ImageInfoPanel.swift in Sources */,
 				8E69FB869C92C7720C05484F /* ImagePreviewView.swift in Sources */,
 				0A5C70673EFA726277030CA1 /* ImageThumbnailView.swift in Sources */,
@@ -299,15 +300,12 @@
 				004470CBBAB00E6A180F02F4 /* ZoomableImageView.swift in Sources */,
 				3C6C8B5838C4AB2B6231E6BB /* iMonetApp.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		724F8261929BE185ED4C47B3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				D67BA868BE770C33DF4451C9 /* iMonetTests.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -320,7 +318,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		09D35CFA69C0E38FFA44C140 /* Release */ = {
+		09D35CFA69C0E38FFA44C140 /* Release configuration for PBXNativeTarget "iMonetTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -335,11 +333,12 @@
 			};
 			name = Release;
 		};
-		3329DA18F972CC53D74BA489 /* Release */ = {
+		3329DA18F972CC53D74BA489 /* Release configuration for PBXProject "iMonet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -370,13 +369,14 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20260604001;
+				CURRENT_PROJECT_VERSION = 20260718001;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -388,12 +388,13 @@
 				INFOPLIST_KEY_CFBundleDisplayName = iMonet;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.Monet;
 				PRODUCT_NAME = iMonet;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -401,7 +402,7 @@
 			};
 			name = Release;
 		};
-		B1D3291E9E885487C1B2E121 /* Debug */ = {
+		B1D3291E9E885487C1B2E121 /* Debug configuration for PBXNativeTarget "iMonetTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -416,11 +417,12 @@
 			};
 			name = Debug;
 		};
-		D3C351985D28F104FBB77741 /* Debug */ = {
+		D3C351985D28F104FBB77741 /* Debug configuration for PBXProject "iMonet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -451,13 +453,14 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20260604001;
+				CURRENT_PROJECT_VERSION = 20260718001;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -475,13 +478,14 @@
 				INFOPLIST_KEY_CFBundleDisplayName = iMonet;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.wflixu.Monet;
 				PRODUCT_NAME = iMonet;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -489,34 +493,46 @@
 			};
 			name = Debug;
 		};
-		ED2DD815A11A7EB6A61C5A74 /* Release */ = {
+		ED2DD815A11A7EB6A61C5A74 /* Release configuration for PBXNativeTarget "iMonet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Sources/iMonet.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4L3563XCBN;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
 		};
-		F8B1DF15C4BC06F8A5ECD600 /* Debug */ = {
+		F8B1DF15C4BC06F8A5ECD600 /* Debug configuration for PBXNativeTarget "iMonet" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Sources/iMonet.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4L3563XCBN;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -527,28 +543,25 @@
 		193092BD85DE2A5943956B86 /* Build configuration list for PBXNativeTarget "iMonetTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B1D3291E9E885487C1B2E121 /* Debug */,
-				09D35CFA69C0E38FFA44C140 /* Release */,
+				B1D3291E9E885487C1B2E121 /* Debug configuration for PBXNativeTarget "iMonetTests" */,
+				09D35CFA69C0E38FFA44C140 /* Release configuration for PBXNativeTarget "iMonetTests" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 		C152093C67D5756887A8F342 /* Build configuration list for PBXNativeTarget "iMonet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F8B1DF15C4BC06F8A5ECD600 /* Debug */,
-				ED2DD815A11A7EB6A61C5A74 /* Release */,
+				F8B1DF15C4BC06F8A5ECD600 /* Debug configuration for PBXNativeTarget "iMonet" */,
+				ED2DD815A11A7EB6A61C5A74 /* Release configuration for PBXNativeTarget "iMonet" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 		F3F93352FF3DE40770C0C242 /* Build configuration list for PBXProject "iMonet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D3C351985D28F104FBB77741 /* Debug */,
-				3329DA18F972CC53D74BA489 /* Release */,
+				D3C351985D28F104FBB77741 /* Debug configuration for PBXProject "iMonet" */,
+				3329DA18F972CC53D74BA489 /* Release configuration for PBXProject "iMonet" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */

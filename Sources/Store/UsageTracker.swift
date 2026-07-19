@@ -8,6 +8,7 @@ enum UsageTracker {
         static let lastPromptOpenCount = "usage_lastPromptOpenCount"
         static let hasPurchased = "usage_hasPurchased"
         static let purchasedProductID = "usage_purchasedProductID"
+        static let lastAppVersion = "usage_lastAppVersion"
     }
 
     private static var defaults: UserDefaults { .standard }
@@ -44,7 +45,18 @@ enum UsageTracker {
 
     // MARK: - Actions
 
-    static func recordLaunch() {
+    static func recordLaunch(currentVersion: String = "") {
+        // Detect app upgrade/reinstall — reset prompt counters so new install
+        // doesn't immediately show the purchase prompt from old UserDefaults data.
+        let lastVersion = defaults.string(forKey: Key.lastAppVersion)
+        if let lastVersion, lastVersion != currentVersion {
+            defaults.removeObject(forKey: Key.firstLaunchDate)
+            defaults.removeObject(forKey: Key.openCount)
+            defaults.removeObject(forKey: Key.lastPromptDate)
+            defaults.removeObject(forKey: Key.lastPromptOpenCount)
+        }
+        defaults.set(currentVersion, forKey: Key.lastAppVersion)
+
         let count = defaults.integer(forKey: Key.openCount) + 1
         defaults.set(count, forKey: Key.openCount)
 

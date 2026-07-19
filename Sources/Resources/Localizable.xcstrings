@@ -341,6 +341,23 @@
         }
       }
     },
+    "Actual size" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actual size"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "实际大小"
+          }
+        }
+      }
+    },
     "Picture info" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -354,6 +371,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "图片信息"
+          }
+        }
+      }
+    },
+    "Print" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Print"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打印"
           }
         }
       }

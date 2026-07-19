@@ -20,12 +20,14 @@ struct ImagePreviewView: View {
     var onNavigate: (() -> Void)?
 
     @State private var currentImage: NSImage?
+    @State private var currentAnimator: ImageAnimator?
     @State private var showFileImporter = false
 
     var body: some View {
         Group {
             if let currentImage = currentImage {
                 ZoomableImageView(image: currentImage,
+                    animator: currentAnimator,
                     onScaleChanged: { newScale in
                         scale = CGSize(width: newScale, height: newScale)
                     },
@@ -43,6 +45,9 @@ struct ImagePreviewView: View {
                     Button("Copy Image") {
                         NSPasteboard.general.clearContents()
                         NSPasteboard.general.writeObjects([currentImage])
+                    }
+                    Button("Print") {
+                        printImage(currentImage)
                     }
                 }
             } else {
@@ -70,6 +75,11 @@ struct ImagePreviewView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("open-image"))) { _ in
             refreshImage()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("print-image"))) { _ in
+            if let image = currentImage {
+                printImage(image)
+            }
         }
         .onAppear {
             setupKeyEvents()
@@ -108,8 +118,35 @@ struct ImagePreviewView: View {
             return
         }
         let url = appState.imageFiles[appState.selectedImageIndex]
-        if let image = NSImage(contentsOf: url) {
-            currentImage = image
+
+        // Stop any running animation from the previous image.
+        currentAnimator?.stopAnimation()
+        currentAnimator = nil
+
+        // Reset display-only view state (rotation, zoom, pan) for the new image
+        monetImageView?.rotationDegrees = 0
+        monetImageView?.fitToWindow()
+
+        // Load the static NSImage (always — used as fallback and for non-GIF images).
+        currentImage = NSImage(contentsOf: url)
+
+        // For animated formats attempt to create an animator.
+        let animatedExtensions = ["gif", "png", "webp"]
+        if animatedExtensions.contains(url.pathExtension.lowercased()),
+           let animator = ImageAnimator(url: url),
+           animator.frameCount > 1 {
+            currentAnimator = animator
+        }
+    }
+
+    private func printImage(_ image: NSImage) {
+        let imageView = NSImageView(frame: NSRect(origin: .zero, size: image.size))
+        imageView.image = image
+        imageView.imageScaling = .scaleProportionallyUpOrDown
+
+        let printOperation = NSPrintOperation(view: imageView)
+        if printOperation.run() {
+            logger.info("Print job submitted for image (\(image.size.width)x\(image.size.height))")
         }
     }
 

@@ -8,6 +8,28 @@ final class iMonetImageView: NSView {
         didSet { needsDisplay = true }
     }
 
+    /// Attach a GIF animator to this view. The animator drives frame updates
+    /// and `draw(_:)` renders the current frame instead of `image`.
+    var animator: ImageAnimator? {
+        didSet {
+            oldValue?.stopAnimation()
+            oldValue?.onFrameChanged = nil
+            guard let animator else { return }
+            animator.onFrameChanged = { [weak self] in
+                self?.needsDisplay = true
+            }
+            if window != nil {
+                animator.startAnimation()
+            }
+            needsDisplay = true
+        }
+    }
+
+    /// Display-only rotation in degrees (0, 90, 180, 270).
+    var rotationDegrees: CGFloat = 0 {
+        didSet { needsDisplay = true }
+    }
+
     var onStateChanged: ((CGFloat) -> Void)?
     var onClick: (() -> Void)?
     var isDarkMode = false
@@ -28,10 +50,15 @@ final class iMonetImageView: NSView {
 
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
-        if window != nil, !hasPerformedInitialFit {
-            DispatchQueue.main.async { [weak self] in
-                self?.fitToWindow()
+        if window != nil {
+            if !hasPerformedInitialFit {
+                DispatchQueue.main.async { [weak self] in
+                    self?.fitToWindow()
+                }
             }
+            animator?.startAnimation()
+        } else {
+            animator?.stopAnimation()
         }
     }
 
@@ -51,24 +78,54 @@ final class iMonetImageView: NSView {
         fillColor.setFill()
         bounds.fill()
 
-        guard let image, let context = NSGraphicsContext.current?.cgContext else { return }
+        guard let context = NSGraphicsContext.current?.cgContext else { return }
+
+        // Determine the image to draw and its pixel dimensions.
+        let cgImage: CGImage?
+        let drawWidth: CGFloat
+        let drawHeight: CGFloat
+
+        if let animFrame = animator?.currentFrame {
+            cgImage = animFrame
+            drawWidth = CGFloat(animFrame.width)
+            drawHeight = CGFloat(animFrame.height)
+        } else if let image {
+            cgImage = nil
+            drawWidth = image.size.width
+            drawHeight = image.size.height
+        } else {
+            return
+        }
 
         context.saveGState()
 
-        // Transform: center in view → apply pan offset → scale
+        // Transform: center in view → apply pan offset → scale → rotate
         let cx = bounds.width / 2 + offset.x
         let cy = bounds.height / 2 + offset.y
         context.translateBy(x: cx, y: cy)
         context.scaleBy(x: magnification, y: magnification)
+        if rotationDegrees != 0 {
+            context.rotate(by: rotationDegrees * .pi / 180)
+        }
 
-        // Draw image centered at origin
-        let imageRect = NSRect(
-            x: -image.size.width / 2,
-            y: -image.size.height / 2,
-            width: image.size.width,
-            height: image.size.height
+        let imageRect = CGRect(
+            x: -drawWidth / 2,
+            y: -drawHeight / 2,
+            width: drawWidth,
+            height: drawHeight
         )
-        image.draw(in: imageRect, from: .zero, operation: .sourceOver, fraction: 1.0)
+
+        if let cgImage {
+            context.draw(cgImage, in: imageRect)
+        } else if let image {
+            let nsRect = NSRect(
+                x: -drawWidth / 2,
+                y: -drawHeight / 2,
+                width: drawWidth,
+                height: drawHeight
+            )
+            image.draw(in: nsRect, from: .zero, operation: .sourceOver, fraction: 1.0)
+        }
 
         context.restoreGState()
     }
@@ -165,12 +222,14 @@ final class iMonetImageView: NSView {
     // MARK: - Fit to Window
 
     func fitToWindow() {
-        guard let image else { return }
+        // Determine the logical draw size, accounting for rotation.
+        let drawSize = effectiveDrawSize()
+        guard drawSize.width > 0, drawSize.height > 0 else { return }
         guard bounds.width > 0, bounds.height > 0 else { return }
 
         let fitMag = min(
-            bounds.width / image.size.width,
-            bounds.height / image.size.height
+            bounds.width / drawSize.width,
+            bounds.height / drawSize.height
         )
         magnification = fitMag
         offset = .zero
@@ -180,7 +239,45 @@ final class iMonetImageView: NSView {
         onStateChanged?(magnification)
     }
 
+    /// The size of the thing we are drawing, swapping width/height when
+    /// rotation is close to 90° or 270°.
+    private func effectiveDrawSize() -> CGSize {
+        let raw: CGSize
+        if let canvasSize = animator?.canvasSize, canvasSize != .zero {
+            raw = canvasSize
+        } else if let image {
+            raw = image.size
+        } else {
+            return .zero
+        }
+        let deg = abs(rotationDegrees).truncatingRemainder(dividingBy: 360)
+        if (deg > 45 && deg < 135) || (deg > 225 && deg < 315) {
+            return CGSize(width: raw.height, height: raw.width)
+        }
+        return raw
+    }
+
+    // MARK: - Display-only Rotation
+
+    func rotateLeft() {
+        rotationDegrees -= 90
+        // Rotation changes the effective draw size → re-fit.
+        fitToWindow()
+    }
+
+    func rotateRight() {
+        rotationDegrees += 90
+        fitToWindow()
+    }
+
     // MARK: - Toolbar Zoom Actions
+
+    /// Required by AppKit's print infrastructure.
+    /// `NSPrintOperation.run()` verifies that the responder chain contains a
+    /// responder to `printDocument:` before presenting the print panel.
+    /// Since `iMonetImageView` is an `NSView` (part of the responder chain),
+    /// placing the action here satisfies that check.
+    @objc func printDocument(_ sender: Any?) { }
 
     func zoomIn() {
         zoomAtCenter(factor: 1.25)
@@ -188,6 +285,13 @@ final class iMonetImageView: NSView {
 
     func zoomOut() {
         zoomAtCenter(factor: 0.8)
+    }
+
+    func actualSize() {
+        magnification = 1.0
+        offset = .zero
+        needsDisplay = true
+        onStateChanged?(magnification)
     }
 
     private func zoomAtCenter(factor: CGFloat) {
@@ -213,6 +317,7 @@ extension CGFloat {
 
 struct iMonetImageRepresentable: NSViewRepresentable {
     let image: NSImage?
+    let animator: ImageAnimator?
     let isDarkMode: Bool
     var onStateChanged: ((CGFloat) -> Void)?
     var onViewCreated: ((iMonetImageView) -> Void)?
@@ -221,6 +326,7 @@ struct iMonetImageRepresentable: NSViewRepresentable {
     func makeNSView(context: Context) -> iMonetImageView {
         let view = iMonetImageView()
         view.image = image
+        view.animator = animator
         view.isDarkMode = isDarkMode
         view.onStateChanged = onStateChanged
         view.onClick = onClick
@@ -232,6 +338,7 @@ struct iMonetImageRepresentable: NSViewRepresentable {
 
     func updateNSView(_ nsView: iMonetImageView, context: Context) {
         nsView.image = image
+        nsView.animator = animator
         nsView.isDarkMode = isDarkMode
         nsView.onStateChanged = onStateChanged
         nsView.onClick = onClick
@@ -244,6 +351,7 @@ struct ZoomableImageView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     let image: NSImage?
+    var animator: ImageAnimator?
     var onScaleChanged: ((CGFloat) -> Void)?
     var onViewCreated: ((iMonetImageView) -> Void)?
     var onClick: (() -> Void)?
@@ -251,6 +359,7 @@ struct ZoomableImageView: View {
     var body: some View {
         iMonetImageRepresentable(
             image: image,
+            animator: animator,
             isDarkMode: colorScheme == .dark,
             onStateChanged: onScaleChanged,
             onViewCreated: onViewCreated,

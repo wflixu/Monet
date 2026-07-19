@@ -8,7 +8,7 @@
 
 # iMonet
 
-专为鼠标用户优化的 macOS 看图工具。基于 SwiftUI 构建。
+一款现代 macOS 看图工具，原生支持 GIF、APNG、WebP 动画播放。基于 SwiftUI 构建 — 零外部依赖。
 
 [![Download on the App Store](https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg)](https://apps.apple.com/cn/app/imonet/id6770070921?mt=12)
 
@@ -21,6 +21,8 @@ https://github.com/user-attachments/assets/f9faccb3-531e-4000-bc7f-e58fb922e6da
 ## 截屏
 
 <div align="center">
+   <img src="assets/imonet-screenshot.png" width="720" alt="iMonet 截屏"/>
+   <br/><br/>
    <table>
      <tr>
        <td><img src="assets/iMonet-viewer.png" width="360" alt="iMonet 浏览界面"/></td>
@@ -35,7 +37,8 @@ https://github.com/user-attachments/assets/f9faccb3-531e-4000-bc7f-e58fb922e6da
 ### 图片浏览
 - **文件夹索引**：自动扫描并索引同目录下的所有图片
 - **持久化权限**：基于安全范围书签（security-scoped bookmark），只需授权一次即可永久访问
-- **支持格式**：PNG、JPEG、GIF、WebP
+- **支持格式**：PNG、JPEG、GIF（动画）、APNG（动画）、WebP（动画）
+- **动画播放**：逐帧精确播放，支持循环控制，播放中可缩放/平移
 - **侧边栏**：缩略图快速导航，仅有一张图片时自动隐藏
 
 ### 鼠标 & 键盘
@@ -78,6 +81,8 @@ iMonet/
 │   ├── AppState.swift              # 全局应用状态
 │   ├── ContentView.swift           # 主布局，控件自动显隐逻辑
 │   ├── NavigationIdentifier.swift  # 设置导航
+│   ├── Animator/
+│   │   └── ImageAnimator.swift     # GIF/APNG/WebP 动画解码器
 │   ├── Views/
 │   │   ├── ImagePreviewView.swift  # 图片显示与键盘事件
 │   │   ├── ImageThumbnailView.swift
@@ -102,7 +107,7 @@ iMonet/
 
 ## 依赖
 
-- **[SwiftUITooltip](https://github.com/quassum/SwiftUI-Tooltip)** — 工具提示
+零外部依赖 — iMonet 仅使用 Apple 原生框架（SwiftUI、AppKit、ImageIO）。
 
 ## 快捷键
 

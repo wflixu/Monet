@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-iMonet is a macOS image viewer application built with SwiftUI, focused on efficient image viewing and navigation with keyboard shortcuts and mouse interactions.
+iMonet is a macOS image viewer application built with SwiftUI, focused on efficient image viewing and navigation with keyboard shortcuts and mouse interactions. It supports static images (PNG, JPEG, WebP) and animated formats (GIF, APNG, WebP) with frame-accurate playback — all using zero external dependencies.
 
 ## Build and Run
 
@@ -18,28 +18,31 @@ xcodebuild -scheme iMonet -configuration Release -derivedDataPath build -destina
 
 The codebase follows a modular SwiftUI architecture:
 
-- **iMonetApp.swift** - App entry point with `@main`, defines scenes (main window, settings, menu bar extra)
+- **iMonetApp.swift** - App entry point with `@main`, defines scenes (main window, settings) and AppDelegate
 - **AppState.swift** - Global application state (`@MainActor class`), manages image URLs, permissions, settings
-- **AppDelegate** - Handles file opening requests, window styling, and app lifecycle
+- **ContentView.swift** - Main layout with thumbnail sidebar, toolbar, chrome auto-hide, rotation, delete
+- **Animator/**:
+  - **ImageAnimator.swift** - Decodes animated image frames (GIF/APNG/WebP) via `CGImageSource`, drives playback with `Timer`
 - **Views/**:
-  - **ContentView.swift** - Legacy main view with sidebar thumbnail navigation
-  - **LayoutView.swift** - New layout view with floating UI components
-  - **ZoomableImageView.swift** - Image view with pan/zoom support
+  - **ImagePreviewView.swift** - Image display with keyboard event monitoring, animated image detection
+  - **ZoomableImageView.swift** - Custom `NSView` (`iMonetImageView`) with zoom/pan, supports both `NSImage` and animated `CGImage`
   - **ToolBarView.swift** - Bottom toolbar with navigation controls (note spelling: `ToolBarView`, not `ToolbarView`)
-  - **InfoBarView.swift** - Top info bar
-  - **NavigationFloatView.swift** - Left navigation panel
-- **Models/ViewState.swift** - Image transformation state (scale, offset, anchor, rotation)
+  - **ThumbnailSidebar.swift** - Left thumbnail strip for quick navigation
+  - **ImageThumbnailView.swift** - Individual thumbnail rendering
+  - **ImageInfoPanel.swift** - Right-side info panel (pixel size, file size, format, date)
 - **Shared/**:
   - **AppLogger.swift** - `@AppLog` property wrapper for logging
   - **Util.swift** - `ObjectAssociation` for ObjectiveC runtime associations
   - **Constants.swift** - App constants and identifiers
 - **Permission/PermissionsManager.swift** - Handles file system permissions with bookmark data
+- **Settings/** - Settings window and panes
+- **Store/** - In-app purchase (StoreKit) management
 
 ## Key Architecture Patterns
 
 ### State Management
 - `AppState` (`@MainActor`) - Global app state passed via `.environmentObject()`
-- `ViewState` - Per-view image transformation state, used by `ZoomableImageView`
+- `iMonetImageView` owns zoom/pan state directly (`magnification`, `offset`), no separate ViewState model
 
 ### Naming Conventions
 - **Important**: `ToolBarView` (not `ToolbarView`) - file and struct name use two-word "ToolBar"
@@ -73,12 +76,25 @@ private var logger
 2. `AppDelegate.loadImages()` scans directory for supported formats (png, jpg, jpeg, gif, webp)
 3. Files stored in `AppState.imageFiles: [URL]`
 4. `AppState.selectedImageIndex` tracks current image
+5. `ImagePreviewView.refreshImage()` loads `NSImage(contentsOf:)` for static display
+6. For animated formats (GIF/APNG/WebP), `ImageAnimator` decodes frames via `CGImageSource` and drives playback
 
-### View Hierarchy (LayoutView)
+### Animated Image Support
+- `ImageAnimator` handles GIF, APNG, and animated WebP — format detected via `CGImageSourceGetType`
+- Frame delays parsed per-format: GIF uses per-frame properties; APNG/WebP use top-level frame info arrays
+- Animation driven by a ~60fps `Timer` with `CACurrentMediaTime()` for accurate delta tracking
+- `iMonetImageView.draw(_:)` renders animated `CGImage` frames directly, applying zoom/pan/rotation transforms identically to static images
+- Single-frame images skip the animation timer entirely
+- Thumbnails always show static first frame
+
+### View Hierarchy (ContentView)
 ```
-LayoutView (GeometryReader)
-├── ZoomableImageView (background)
-├── InfoBarView (top, floating)
-├── NavigationFloatView (left, floating)
-└── ToolBarView (bottom, floating)
+ContentView (GeometryReader)
+├── ThumbnailSidebar (left, floating, zIndex: 20)
+├── ImageInfoPanel (right, floating, zIndex: 20)
+├── ImagePreviewView (full area, zIndex: 10)
+│   └── ZoomableImageView → iMonetImageRepresentable → iMonetImageView (custom NSView)
+├── Navigation arrows (left/right edges, zIndex: 20)
+├── ToolBarView (bottom center, floating, zIndex: 20)
+└── PurchasePromptView (overlay, zIndex: 100)
 ```
